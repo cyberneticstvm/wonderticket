@@ -8,7 +8,7 @@
     <meta name="description" content="Wonder Ticket">
     <meta name="keyword" content="Wonder Ticket">
     <title>Wonder Ticket</title>
-    <link rel="icon" href="{{ asset('/backend/assets/favicon.ico') }}" type="image/x-icon"> <!-- Favicon-->
+    <link rel="icon" href="{{ asset('/backend/assets/ticket.png') }}" type="image/x-icon"> <!-- Favicon-->
 
     <!-- project css file  -->
     <link rel="stylesheet" href="{{ asset('/backend/assets/css/al.style.min.css') }}">

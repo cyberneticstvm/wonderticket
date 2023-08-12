@@ -15,7 +15,7 @@
 	<meta name="format-detection" content="telephone=no">
     
     <!-- Favicons Icon -->
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('/frontend/assets/images/favicon.png') }}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('/frontend/assets/ticket.png') }}" />
     
     <!-- Title -->
 	<title>Wonder Ticket</title>

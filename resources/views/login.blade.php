@@ -56,8 +56,8 @@
                     <h3 class="title">Welcome back</h3>
 					<form>
 						<div class="input-group input-mini mb-3">
-							<span class="input-group-text"><i class="fa fa-frontend"></i></span>
-							<input type="text" class="form-control" placeholder="frontendname">
+							<span class="input-group-text"><i class="fa fa-user"></i></span>
+							<input type="text" class="form-control" placeholder="Username">
 						</div>
 						<div class="mb-3 input-group input-mini">
 							<span class="input-group-text"><i class="fa fa-lock"></i></span>

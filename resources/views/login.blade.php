@@ -15,14 +15,14 @@
 	<meta name="format-detection" content="telephone=no">
     
     <!-- Favicons Icon -->
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('/user/assets/images/favicon.png') }}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('/frontend/assets/images/favicon.png') }}" />
     
     <!-- Title -->
 	<title>Wonder Ticket</title>
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ asset('/user/assets/vendor/swiper/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/user/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/frontend/assets/vendor/swiper/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/assets/css/style.css') }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,8 +56,8 @@
                     <h3 class="title">Welcome back</h3>
 					<form>
 						<div class="input-group input-mini mb-3">
-							<span class="input-group-text"><i class="fa fa-user"></i></span>
-							<input type="text" class="form-control" placeholder="Username">
+							<span class="input-group-text"><i class="fa fa-frontend"></i></span>
+							<input type="text" class="form-control" placeholder="frontendname">
 						</div>
 						<div class="mb-3 input-group input-mini">
 							<span class="input-group-text"><i class="fa fa-lock"></i></span>
@@ -84,9 +84,9 @@
 <!--**********************************
     Scripts
 ***********************************-->
-<script src="{{ asset('/user/assets/js/jquery.js') }}"></script>
-<script src="{{ asset('/user/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('/user/assets/js/settings.js') }}"></script>
-<script src="{{ asset('/user/assets/js/custom.js') }}"></script>
+<script src="{{ asset('/frontend/assets/js/jquery.js') }}"></script>
+<script src="{{ asset('/frontend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('/frontend/assets/js/settings.js') }}"></script>
+<script src="{{ asset('/frontend/assets/js/custom.js') }}"></script>
 </body>
 </html>

@@ -8,12 +8,12 @@
     <meta name="description" content="Wonder Ticket">
     <meta name="keyword" content="Wonder Ticket">
     <title>Wonder Ticket</title>
-    <link rel="icon" href="{{ asset('/administratoristrator/assets/favicon.ico') }}" type="image/x-icon"> <!-- Favicon-->
+    <link rel="icon" href="{{ asset('/backend/assets/favicon.ico') }}" type="image/x-icon"> <!-- Favicon-->
 
     <!-- project css file  -->
-    <link rel="stylesheet" href="{{ asset('/administrator/assets/css/al.style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/backend/assets/css/al.style.min.css') }}">
     <!-- project layout css file -->
-    <link rel="stylesheet" href="{{ asset('/administrator/assets/css/layout.p.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/backend/assets/css/layout.p.min.css') }}">
 </head>
 
 <body>
@@ -70,7 +70,7 @@
 </div>
 
 <!-- Jquery Core Js -->
-<script src="{{ asset('/administrator/assets/bundles/libscripts.bundle.js') }}"></script>
+<script src="{{ asset('/backend/assets/bundles/libscripts.bundle.js') }}"></script>
 
 </body>
 </html>

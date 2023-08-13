@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Winner;
+use App\Models\WinnerDetails;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -82,6 +86,33 @@ class AdminController extends Controller
 
     public function createWinner(){
         return view('admin.winner.index');
+    }
+
+    public function saveWinner(Request $request){
+        $this->validate($request, [
+            'play_id' => 'required',
+            'date' => 'required',
+        ]);
+        $input = $request->except(array('positions', 'position_values'));
+        $input['created_by'] = $request->user()->id;
+        $input['updated_by'] = $request->user()->id;
+        try{
+            DB::transaction(function() use ($input, $request) {
+                $winner = Winner::create($input);
+                foreach($request->positions as $key => $position):
+                    $data[] = [
+                        'winner_id' => $winner->id,
+                        'position' => $position,
+                        'value' => $request->position_values[$key]
+                    ];
+                endforeach;
+                WinnerDetails::insert($data);
+            });
+        }catch(Exception $e){
+            throw $e;
+            return back()->with("error", $e->getMessage())->withInput($request->all());
+        }
+        return back()->with("success", "Data updated successfully");
     }
 
     public function logout(){

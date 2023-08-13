@@ -80,6 +80,10 @@ class AdminController extends Controller
         return redirect()->route('users')->with('success', 'User Deleted Successfully!');
     }
 
+    public function createWinner(){
+        return view('admin.winner.index');
+    }
+
     public function logout(){
         Session::flush();
         Auth::logout();        

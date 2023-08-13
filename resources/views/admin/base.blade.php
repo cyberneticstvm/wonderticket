@@ -74,7 +74,7 @@
             <ul class="menu-list flex-grow-1">
                 <li><a class="m-link active" href="/admin/dash"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                 <li><a class="m-link" href="/admin/users"><i class="fa fa-user"></i> <span>User Management</span></a></li>
-                <li><a class="m-link" href="/admin/winner"><i class="fa fa-gift"></i> <span>Winner</span></a></li>
+                <li><a class="m-link" href="/admin/winner/create"><i class="fa fa-gift"></i> <span>Winner</span></a></li>
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-report" href="#"><i class="fa fa-file"></i> <span>Reports</span> <span class="arrow fa fa-angle-right ms-auto text-end"></span></a>
 

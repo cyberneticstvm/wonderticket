@@ -35,6 +35,9 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(AdminCo
     Route::PUT('user/edit/{id}', 'updateUser')->name('user.update');
     Route::DELETE('user/delete/{id}', 'deleteUser')->name('user.delete');
 
+    Route::get('winner/create', 'createWinner')->name('winner.create');
+    Route::post('winner/create', 'saveWinner')->name('winner.save');
+
     Route::get('logout', 'logout')->name('admin.logout');
 });
 

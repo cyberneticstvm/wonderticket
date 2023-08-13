@@ -18,7 +18,7 @@
 
 <!-- Body: Body -->
 <div class="body d-flex py-lg-4 py-3">
-    <div class="container">        
+    <div class="container-fluid">        
         <div class="row g-3 clearfix">
             <div class="card mb-2">
                 <div class="card-body p-4">

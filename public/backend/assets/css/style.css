@@ -1,0 +1,14 @@
+.alert-danger{
+    color: red;
+    border: 1px solid red;
+    border-radius: 0;
+}
+.alert-success{
+    color: green;
+    border: 1px solid green;
+    border-radius: 0;
+}
+.req::after{
+    content: ' *';
+    color: red;
+}

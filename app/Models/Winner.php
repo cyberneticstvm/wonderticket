@@ -12,4 +12,12 @@ class Winner extends Model
     protected $guarded = [];
 
     protected $casts = ['date' => 'date'];
+
+    public function play(){
+        return $this->belongsTo(PlayCategory::class, 'play_id', 'id');
+    }
+
+    public function positions(){
+        return $this->hasMany(WinnerDetails::class, 'winner_id', 'id');
+    }
 }

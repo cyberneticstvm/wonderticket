@@ -59,6 +59,33 @@
                     </form>
                 </div>
             </div>
+            <div class="card mb-2">                
+                <div class="card-body p-4 table-responsive">
+                    <h5 class="text-primary">Numbers Won Today</h5>
+                    <table id="dataTbl" class="table table-striped table-hover align-middle table-sm">
+                        <thead><tr><th>SL No</th><th>Play</th><th>Date</th><th>Values</th><th>Delete</th></tr></thead>
+                        <tbody>
+                            @php $c = 1; @endphp
+                            @forelse($winners as $key => $winner)
+                            <tr>
+                                <td>{{ $c++ }}</td>
+                                <td>{{ $winner->play->name }}</td>
+                                <td>{{ $winner->date->format('d-M-Y') }}</td>
+                                <td>{{ $winner->positions->pluck('value')->implode(',') }}</td>
+                                <td class="text-center">
+                                    <form method="post" action="{{ route('winner.delete', $winner->id) }}">
+                                        @csrf 
+                                        @method("DELETE")
+                                        <button type="submit" class="border no-border" onclick="javascript: return confirm('Are you sure want to delete this record?');"><i class="fa fa-trash text-danger"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!-- .row end -->
     </div>

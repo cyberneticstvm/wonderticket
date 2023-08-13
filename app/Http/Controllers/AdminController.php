@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Winner;
 use App\Models\WinnerDetails;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +86,8 @@ class AdminController extends Controller
     }
 
     public function createWinner(){
-        return view('admin.winner.index');
+        $winners = Winner::whereDate('date', Carbon::today())->orderByDesc('date')->get();
+        return view('admin.winner.index', compact('winners'));
     }
 
     public function saveWinner(Request $request){
@@ -109,10 +111,14 @@ class AdminController extends Controller
                 WinnerDetails::insert($data);
             });
         }catch(Exception $e){
-            throw $e;
-            return back()->with("error", $e->getMessage())->withInput($request->all());
+            return redirect()->back()->with("error", "Data already updated!")->withInput($request->all());
         }
-        return back()->with("success", "Data updated successfully");
+        return redirect()->back()->with("success", "Data updated successfully");
+    }
+
+    public function deleteWinner($id){
+        Winner::findOrFail($id)->delete();
+        return redirect()->route('winner.create')->with('success', 'Winner Deleted Successfully!');
     }
 
     public function logout(){

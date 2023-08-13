@@ -32,11 +32,12 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(AdminCo
     Route::get('user/create', 'createUser')->name('user.create');
     Route::post('user/create', 'saveUser')->name('user.save');
     Route::get('user/edit/{id}', 'editUser')->name('user.edit');
-    Route::PUT('user/edit/{id}', 'updateUser')->name('user.update');
-    Route::DELETE('user/delete/{id}', 'deleteUser')->name('user.delete');
+    Route::put('user/edit/{id}', 'updateUser')->name('user.update');
+    Route::delete('user/delete/{id}', 'deleteUser')->name('user.delete');
 
     Route::get('winner/create', 'createWinner')->name('winner.create');
     Route::post('winner/create', 'saveWinner')->name('winner.save');
+    Route::delete('winner/delete/{id}', 'deleteWinner')->name('winner.delete');
 
     Route::get('logout', 'logout')->name('admin.logout');
 });

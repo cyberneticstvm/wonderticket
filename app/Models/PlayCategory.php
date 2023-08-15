@@ -9,5 +9,12 @@ class PlayCategory extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'entry_locked_from',
+        'entry_locked_to',
+        'status',
+    ];
+
+    protected $casts = ['entry_locked_from' => 'datetime', 'entry_locked_to' => 'datetime'];
 }

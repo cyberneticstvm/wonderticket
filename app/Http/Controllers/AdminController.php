@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PlayCategory;
+use App\Models\PrizeSetting;
 use App\Models\User;
 use App\Models\Winner;
 use App\Models\WinnerDetails;
@@ -119,6 +121,99 @@ class AdminController extends Controller
     public function deleteWinner($id){
         Winner::findOrFail($id)->delete();
         return redirect()->route('winner.create')->with('success', 'Winner Deleted Successfully!');
+    }
+
+    public function plays(){
+        return view('admin.play.index');
+    }
+
+    public function createPlay(){
+        return view('admin.play.create');
+    }
+
+    public function savePlay(Request $request){
+        $this->validate($request, [
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+        $input = $request->all();
+        PlayCategory::create($input);
+        return redirect()->route('plays')->with('success', 'Play Created Successfully!');
+    }
+
+    public function editPlay($id){
+        $play = PlayCategory::findOrFail(decrypt($id));
+        return view('admin.play.edit', compact('play'));
+    }
+
+    public function updatePlay(Request $request, $id){
+        $this->validate($request, [
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+        $input = $request->all();
+        $play = PlayCategory::findOrFail($id);
+        $play->update($input);
+        return redirect()->route('plays')->with('success', 'Play Updated Successfully!');
+    }
+
+    public function deletePlay($id){
+        PlayCategory::findOrFail($id)->delete();
+        return redirect()->route('plays')->with('success', 'Play Deleted Successfully!');
+    }
+
+    public function prizes(){
+        return view('admin.prize.index');
+    }
+
+    public function createPrize(){
+        return view('admin.prize.create');
+    }
+
+    public function savePrize(Request $request){
+        $this->validate($request, [
+            'position' => 'required',
+            'prize_count' => 'required',
+            'amount' => 'required',
+            'super' => 'required',
+            'status' => 'required',
+        ]);
+        PrizeSetting::insert([
+            'position' => $request->position,
+            'prize_count' => $request->prize_count,
+            'amount' => $request->amount,
+            'super' => $request->super,
+            'status' => $request->status,
+        ]);
+        return redirect()->route('prizes')->with('success', 'Prize Created Successfully!');
+    }
+
+    public function editPrize($id){
+        $prize = PrizeSetting::findOrFail(decrypt($id));
+        return view('admin.prize.edit', compact('prize'));
+    }
+
+    public function updatePrize(Request $request, $id){
+        $this->validate($request, [
+            'position' => 'required',
+            'prize_count' => 'required',
+            'amount' => 'required',
+            'super' => 'required',
+            'status' => 'required',
+        ]);
+        PrizeSetting::where('id', $id)->update([
+            'position' => $request->position,
+            'prize_count' => $request->prize_count,
+            'amount' => $request->amount,
+            'super' => $request->super,
+            'status' => $request->status,
+        ]);
+        return redirect()->route('prizes')->with('success', 'Prize Updated Successfully!');
+    }
+
+    public function deletePrize($id){
+        PrizeSetting::findOrFail($id)->delete();
+        return redirect()->route('prizes')->with('success', 'Prize Deleted Successfully!');
     }
 
     public function logout(){

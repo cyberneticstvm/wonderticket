@@ -27,7 +27,7 @@
                         <div class="row g-4">
                             <div class="col-sm-9">
                                 <label class="form-label req">Play</label>
-                                {{ html()->select($name = 'play_id', $options = plays()->pluck('name', 'id'), $value = old('play'))->class('form-control select2')->placeholder('Select') }}
+                                {{ html()->select($name = 'play_id', $options = plays()->where('status', 1)->pluck('name', 'id'), $value = old('play'))->class('form-control select2')->placeholder('Select') }}
                                 @error('play_id')
                                     <small class="text-danger">{{ $errors->first('play_id') }}</small>
                                 @enderror
@@ -41,7 +41,7 @@
                             </div>
                             @forelse(prizes()->where('status', 1) as $key1 => $prize)                            
                             <div class="col-sm-2">
-                                <label class="form-label req">Position {{ $prize->position }}</label>
+                                <label class="form-label req">Position {{$prize->position}}</label>
                                 <input type="hidden" name="positions[]" value="{{$prize->position}}" />
                                 <input type="text" name="position_values[]" maxlength="3" class="form-control form-control-md" placeholder="xxx" required>
                                 @error('name')

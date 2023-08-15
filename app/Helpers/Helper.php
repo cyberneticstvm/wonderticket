@@ -4,11 +4,11 @@ use App\Models\PlayCategory;
 use App\Models\PrizeSetting;
 
 function prizes(){
-    return PrizeSetting::all();
+    return PrizeSetting::orderByDesc('status')->get();
 }
 
 function plays(){
-    return PlayCategory::all();
+    return PlayCategory::orderByDesc('status')->get();
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,11 +36,32 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(AdminCo
     Route::put('user/edit/{id}', 'updateUser')->name('user.update');
     Route::delete('user/delete/{id}', 'deleteUser')->name('user.delete');
 
+    Route::get('plays', 'plays')->name('plays');    
+    Route::get('play/create', 'createPlay')->name('play.create');
+    Route::post('play/create', 'savePlay')->name('play.save');
+    Route::get('play/edit/{id}', 'editPlay')->name('play.edit');
+    Route::put('play/edit/{id}', 'updatePlay')->name('play.update');
+    Route::delete('play/delete/{id}', 'deletePlay')->name('play.delete');
+
+    Route::get('prizes', 'prizes')->name('prizes');    
+    Route::get('prize/create', 'createPrize')->name('prize.create');
+    Route::post('prize/create', 'savePrize')->name('prize.save');
+    Route::get('prize/edit/{id}', 'editPrize')->name('prize.edit');
+    Route::put('prize/edit/{id}', 'updatePrize')->name('prize.update');
+    Route::delete('prize/delete/{id}', 'deletePrize')->name('prize.delete');
+
     Route::get('winner/create', 'createWinner')->name('winner.create');
     Route::post('winner/create', 'saveWinner')->name('winner.save');
     Route::delete('winner/delete/{id}', 'deleteWinner')->name('winner.delete');
 
     Route::get('logout', 'logout')->name('admin.logout');
+});
+
+Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(ReportController::class)->group(function(){
+    Route::get('reports/winner', 'reportWinner')->name('report.winner');
+    Route::post('reports/winner', 'reportWinnerFetch')->name('report.winner.fetch');
+    Route::get('reports/sales', 'reportSales')->name('report.sales');
+    Route::post('reports/sales', 'reportSalesFetch')->name('report.sales.fetch');
 });
 
 Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserController::class)->group(function(){

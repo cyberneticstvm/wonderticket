@@ -75,21 +75,15 @@
                 <li><a class="m-link active" href="/admin/dash"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                 <li><a class="m-link" href="/admin/users"><i class="fa fa-user"></i> <span>User Management</span></a></li>
                 <li><a class="m-link" href="/admin/winner/create"><i class="fa fa-gift"></i> <span>Winner</span></a></li>
+                <li><a class="m-link" href="/admin/plays"><i class="fa fa-play"></i> <span>Plays</span></a></li>
+                <li><a class="m-link" href="/admin/prizes"><i class="fa fa-dollar"></i> <span>Prizes</span></a></li>
                 <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-report" href="#"><i class="fa fa-file"></i> <span>Reports</span> <span class="arrow fa fa-angle-right ms-auto text-end"></span></a>
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-report" href="#"><i class="fa fa-file-text-o"></i> <span>Reports</span> <span class="arrow fa fa-angle-right ms-auto text-end"></span></a>
 
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="menu-report">
-                        <li><a class="ms-link" href="#">Winner Report</a></li>
-                        <li><a class="ms-link" href="#">Sales Report</a></li>
-                    </ul>
-                </li>
-                <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-setting" href="#"><i class="fa fa-gear"></i> <span>Settings</span> <span class="arrow fa fa-angle-right ms-auto text-end"></span></a>
-
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="menu-setting">
-                        <li><a class="ms-link" href="#">Login Lock</a></li>
+                        <li><a class="ms-link" href="/admin/reports/winner">Winners</a></li>
+                        <li><a class="ms-link" href="/admin/reports/sales">Sales</a></li>
                     </ul>
                 </li>
             </ul>

@@ -27,7 +27,7 @@
                         <div class="card mb-4 border-0 lift">
                             <div class="card-body">
                                 <span class="text-uppercase">New Users</span>
-                                <h4 class="mb-0 mt-2">22,500</h4>
+                                <h4 class="mb-0 mt-2">{{ dashboardData()->first()->new_users_count }}</h4>
                                 <small class="text-muted">Analytics for current month</small>
                             </div>
                             <div id="apexspark1"></div>

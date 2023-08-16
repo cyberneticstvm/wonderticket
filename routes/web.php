@@ -20,6 +20,8 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::post('/', [UserController::class, 'login'])->name('user.login');
+
 Route::get('/admin', function () {
     return view('admin.login');
 });
@@ -66,5 +68,9 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(ReportC
 
 Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserController::class)->group(function(){
     Route::get('dash', 'index')->name('user.dash');
+    Route::get('profile', 'profile')->name('user.profile');
+    Route::get('reports', 'reports')->name('user.reports');
+    Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
+    Route::get('misc', 'misc')->name('user.misc');
     Route::get('logout', 'logout')->name('user.logout');
 });

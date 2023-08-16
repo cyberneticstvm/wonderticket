@@ -46,29 +46,39 @@
         <div class="banner-wrapper">
             <div class="circle-1"></div>
             <div class="container inner-wrapper">
-                <h1 class="dz-title">Wonder Ticket</h1>
+                <h1 class="dz-title">WT</h1>
             </div>
         </div>
         <!-- Banner End -->
         <div class="account-box">
             <div class="container">
                 <div class="account-area">
-                    <h3 class="title">Welcome back</h3>
-					<form>
+                    <h3 class="title mb-5 text-center">Welcome back</h3>
+                    <div class="text-center">@include("message")</div>
+					<form method="post" action="{{ route('user.login') }}">
+                        @csrf
+                        <input type="hidden" name="status" value="1" />
+                        <input type="hidden" name="type" value="user" />
 						<div class="input-group input-mini mb-3">
 							<span class="input-group-text"><i class="fa fa-user"></i></span>
-							<input type="text" class="form-control" placeholder="Username">
+							<input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username">
+                            @error('username')
+                                <small class="text-danger">{{ $errors->first('username') }}</small>
+                            @enderror
 						</div>
 						<div class="mb-3 input-group input-mini">
 							<span class="input-group-text"><i class="fa fa-lock"></i></span>
-							<input type="password" class="form-control dz-password" placeholder="Password">
+							<input type="password" class="form-control dz-password" name="password" placeholder="Password">
 							<span class="input-group-text show-pass"> 
 								<i class="fa fa-eye-slash"></i>
 								<i class="fa fa-eye"></i>
 							</span>
+                            @error('password')
+                                <small class="text-danger">{{ $errors->first('password') }}</small>
+                            @enderror
 						</div>
 						<div class="input-group">
-							<a href="index.html" class="btn mt-2 btn-primary w-100 btn-rounded">SIGN IN</a>
+							<button type="submit" class="btn mt-2 btn-submit btn-primary w-100 btn-rounded">SIGN IN</button>
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 						</div>
@@ -88,5 +98,16 @@
 <script src="{{ asset('/frontend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/settings.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/custom.js') }}"></script>
+<script>
+    $(function(){
+        $('form').submit(function(){
+            $(".btn-submit").attr("disabled", true);
+            $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>");
+        });
+    });
+    setTimeout(function () {
+        $(".alert").hide('slow');
+    }, 5000);
+</script>
 </body>
 </html>

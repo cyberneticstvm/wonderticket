@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Number;
 use App\Models\Play;
 use App\Models\PlayCategory;
+use App\Models\Winner;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -38,7 +39,23 @@ class UserController extends Controller
     }
 
     public function reports(){
-        return view('reports');
+        $inputs = []; $data = collect();
+        return view('reports', compact('inputs', 'data'));
+    }
+
+    public function getReports(Request $request){
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+            'play' => 'required',
+        ]);
+        $inputs = array($request->from_date, $request->to_date, $request->play, $request->type);
+        if($request->type == 1):
+            $data = Play::where('user_id', $request->user()->id)->where('play_category', $request->play)->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
+        else:
+            $data = Winner::where('play_id', $request->play)->whereBetween('date', [$request->from_date, $request->to_date])->orderByDesc('date')->get();
+        endif;
+        return view('reports', compact('inputs', 'data'));
     }
 
     public function buyNumbers(){

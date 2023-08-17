@@ -3,6 +3,7 @@
 <!-- Page Content -->
 <div class="page-content bottom-content ">
     <div class="container profile-area">
+        <h5 class="text-center">Profile</h5>
         <div class="profile">
             <div class="media media-100">
                 <img src="{{ asset('/frontend/assets/images/message/pic6.jpg') }}" alt="/">

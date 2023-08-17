@@ -4,6 +4,7 @@
 <div class="page-content">
     <div class="content-inner pt-0">
         <div class="container fb">
+            <h5 class="text-center">Order</h5>
             <div class="text-center">@include("message")</div>
             <form method="post" action="{{ route('user.save.numbers') }}">
                 @csrf

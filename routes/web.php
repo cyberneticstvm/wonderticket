@@ -71,6 +71,7 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::get('dash', 'index')->name('user.dash');
     Route::get('profile', 'profile')->name('user.profile');
     Route::get('reports', 'reports')->name('user.reports');
+    Route::post('reports', 'getReports')->name('user.reports.fetch');
     Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
     Route::post('buy', 'saveNumbers')->name('user.save.numbers')->middleware('checkplay');
     Route::get('misc', 'misc')->name('user.misc');

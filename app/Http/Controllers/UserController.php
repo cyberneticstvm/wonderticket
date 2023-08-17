@@ -76,6 +76,10 @@ class UserController extends Controller
         return view('misc', compact('plays'));
     }
 
+    public function message(){
+        return view('errors.401');
+    }
+
     public function logout(){
         Session::flush();
         Auth::logout();        

@@ -67,11 +67,12 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(ReportC
 });
 
 Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserController::class)->group(function(){
+    Route::get('message', 'message')->name('message');
     Route::get('dash', 'index')->name('user.dash');
     Route::get('profile', 'profile')->name('user.profile');
     Route::get('reports', 'reports')->name('user.reports');
     Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
-    Route::post('buy', 'saveNumbers')->name('user.save.numbers');
+    Route::post('buy', 'saveNumbers')->name('user.save.numbers')->middleware('checkplay');
     Route::get('misc', 'misc')->name('user.misc');
     Route::get('logout', 'logout')->name('user.logout');
 });

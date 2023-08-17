@@ -53,6 +53,11 @@ class Kernel extends HttpKernel
             'auth',
             \App\Http\Middleware\User::class
         ],
+
+        'checkplay' => [
+            'auth',
+            \App\Http\Middleware\Checkplay::class
+        ],
     ];
 
     /**

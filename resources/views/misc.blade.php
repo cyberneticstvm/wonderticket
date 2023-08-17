@@ -2,13 +2,16 @@
 @section("content")
 <!-- Page Content -->
 <div class="page-content">
-    <div class="content-inner pt-0">
-        <div class="container fb">
-            <div class="text-center">@include("message")</div>
-            <h5 class="text-center">Winner's Today</h5>
+    <div class="container bottom-content"> 
+        <div class="serach-area"> 
+            <h5 class="text-center">Today's Order</h5>
+            <div class="order-status">
+                <h5 class="title mb-2">Plays</h5>
+            </div>
+            
             <div class="item-list style-2 recent-jobs-list">
                 <ul>
-                    @forelse(plays()->where('status', 1) as $key => $play)
+                    @forelse($plays as $key => $play)
                         <li>
                             <div class="item-content">
                                 <div class="item-media media media-60">
@@ -16,20 +19,16 @@
                                 </div>
                                 <div class="item-inner">
                                     <div class="item-title-row">
-                                        <h6 class="item-title">{{ $play->name }}</h6>
+                                        <h6 class="item-title">{{ $play->play->name }}</h6>
                                     </div>
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
-                                        @if(!empty(winner($play->id)))
-                                            @forelse(winner($play->id)->positions as $key1 => $postion)
-                                                Position {{ $postion->position }}: {{ $postion->value }}<br>
+                                            @forelse($play->numbers as $key1 => $number)
+                                                Number: {{ $number->number }} | Count: {{ $number->number_count }}<br>
                                             @empty
                                             @endforelse
-                                        @else
-                                            Winner yeto be declared!
-                                        @endif
                                         </div>    
-                                        <span>{{ date('d/M/Y') }}</span>
+                                        <span>{{ $play->created_at->format('d/M/Y h:i a') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +37,8 @@
                     @endforelse
                 </ul>   
             </div>
-        </div>
+            <!-- Job List -->                    
+        </div>    
     </div>
 </div>
 <!-- Page Content End-->

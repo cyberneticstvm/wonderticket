@@ -4,12 +4,22 @@
 <div class="page-content">
     <div class="content-inner pt-0">
         <div class="container fb">
+            <div class="text-center">@include("message")</div>
             <form method="post" action="{{ route('user.save.numbers') }}">
+                @csrf
                 <div class="row numPanel">
                     <div class="col-12">
                         <div class="mb-2">
                             <label class="form-label">Play</label>
-                            {{ html()->select($name = 'play', plays()->pluck('name', 'id'), $value = old('play'))->class('form-control form-control-md')->placeholder('Select') }}
+                            <!--{{ html()->select($name = 'play', plays()->where('status', 1)->pluck('name', 'id'), $value = old('play'))->class('form-control form-control-md')->placeholder('Select') }}-->
+                            <select name="play_category" class="form-control form-control-md" required>
+                                <option value="">Select</option>
+                                @forelse(plays()->where('status', 1) as $key => $play)
+                                    @php $from_time = plays()->where('id', $play->id)->first()->entry_locked_from; $to_time = plays()->where('id', $play->id)->first()->entry_locked_to; @endphp
+                                    <option value="{{ $play->id }}" {{ (Carbon\Carbon::now()->between($from_time, $to_time)) ? 'disabled' : '' }}>{{ $play->name }}</option>
+                                @empty
+                                @endforelse
+                            </select>
                         </div>
                         @error('username')
                             <small class="text-danger">{{ $errors->first('username') }}</small>
@@ -18,31 +28,31 @@
                     <div class="col-4">
                         <div class="mb-2 text-center">
                             <label class="form-label">A</label>
-                            {{ html()->radio($name = 'rad', $value = 'A')->class('form-control radio') }}
+                            {{ html()->radio($name = 'option', $checked = false, $value = '1')->class('form-control radio') }}
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="mb-2 text-center">
                             <label class="form-label">B</label>
-                            {{ html()->radio($name = 'rad', $value = 'B')->class('form-control radio') }}
+                            {{ html()->radio($name = 'option', $checked = false, $value = '2')->class('form-control radio') }}
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="mb-2 text-center">
                             <label class="form-label">C</label>
-                            {{ html()->radio($name = 'rad', $value = 'C')->class('form-control radio') }}
+                            {{ html()->radio($name = 'option', $checked = false, $value = '3')->class('form-control radio') }}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <div class="mb-2">
                             <label class="form-label">Number</label>
-                            {{ html()->number($name = 'numbers[]', $value = old('number'))->class('form-control form-control-md')->placeholder('Number') }}
+                            {{ html()->number($name = 'numbers[]', NULL, $min="100", $max="999", $step="1")->class('form-control form-control-md')->placeholder('Number')->required() }}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <div class="mb-2">
                             <label class="form-label">Count</label>
-                            {{ html()->number($name = 'counts[]', $value = old('count'))->class('form-control form-control-md')->placeholder('Count') }}
+                            {{ html()->number($name = 'counts[]', NULL, $min="1", $max="99", $step="1")->class('form-control form-control-md')->placeholder('Count')->required() }}
                         </div>
                     </div>
                 </div>
@@ -62,7 +72,7 @@
 <!-- Page Content End-->
 <script>
     function addNumPanel(){
-        $(".numPanel").append("<div class='col-6 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='form-control form-control-md' placeholder='Number' required /></div><div class='col-5 mb-2'><input type='number' name='counts[]' class='form-control form-control-md' placeholder='Count' required /></div><div class='col-1'>X</div>");
+        $(".numPanel").after("<div class='row'><div class='col-5 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='form-control form-control-md' placeholder='Number' min='100' max='999' step='1' required /></div><div class='col-5 mb-2'><input type='number' name='counts[]' class='form-control form-control-md' placeholder='Count' min='1' max='99' step='1' required /></div><div class='col-1'><a href='javascript:void(0)' class='dlt'>X</a></div></div>");
     }
 </script>
 @endsection

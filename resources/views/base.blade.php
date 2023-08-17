@@ -23,6 +23,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('/frontend/assets/vendor/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontend/assets/css/custom.css') }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -243,5 +244,16 @@
 <script src="{{ asset('/frontend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/settings.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/custom.js') }}"></script>
+<script>
+    $(function(){
+        $('form').submit(function(){
+            $(".btn-submit").attr("disabled", true);
+            $(".btn-submit").html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>");
+        });
+    });
+    setTimeout(function () {
+        $(".alert").hide('slow');
+    }, 5000);
+</script>
 </body>
 </html>

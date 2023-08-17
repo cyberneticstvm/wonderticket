@@ -71,6 +71,7 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::get('profile', 'profile')->name('user.profile');
     Route::get('reports', 'reports')->name('user.reports');
     Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
+    Route::post('buy', 'saveNumbers')->name('user.save.numbers');
     Route::get('misc', 'misc')->name('user.misc');
     Route::get('logout', 'logout')->name('user.logout');
 });

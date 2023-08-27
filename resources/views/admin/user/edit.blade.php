@@ -66,7 +66,7 @@
                                 <select name="type" class="form-control show-tick select2">
                                     <option value="">Select</option>
                                     <option value="admin" {{ ($user->type == 'admin') ? 'selected' : '' }}>Admin</option>
-                                    <option value="user" {{ ($user->type == 'user') ? 'selected' : '' }}>User</option>                                    
+                                    <option value="leader" {{ ($user->type == 'leader') ? 'selected' : '' }}>Leader</option>                                    
                                 </select>
                                 @error('type')
                                     <small class="text-danger">{{ $errors->first('type') }}</small>

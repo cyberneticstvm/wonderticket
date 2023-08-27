@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('index');
+})->name('index');
+Route::get('/login', function () {
     return view('login');
 })->name('login');
 
@@ -76,4 +80,17 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::post('buy', 'saveNumbers')->name('user.save.numbers')->middleware('checkplay');
     Route::get('misc', 'misc')->name('user.misc');
     Route::get('logout', 'logout')->name('user.logout');
+});
+
+Route::middleware(['web', 'auth', 'leader'])->prefix('leader')->controller(LeaderController::class)->group(function(){
+    Route::get('message', 'message')->name('message');
+    Route::get('dash', 'index')->name('leader.dash');
+    
+    Route::get('user/create', 'createUser')->name('leader.user.create');
+    Route::post('user/create', 'saveUser')->name('leader.user.save');
+    Route::get('user/edit/{id}', 'editUser')->name('leader.user.edit');
+    Route::put('user/edit/{id}', 'updateUser')->name('leader.user.update');
+    Route::delete('user/delete/{id}', 'deleteUser')->name('leader.user.delete');
+
+    Route::get('logout', 'logout')->name('leader.logout');
 });

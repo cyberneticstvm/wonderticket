@@ -58,7 +58,6 @@
 					<form method="post" action="{{ route('user.login') }}">
                         @csrf
                         <input type="hidden" name="status" value="1" />
-                        <input type="hidden" name="type" value="user" />
 						<div class="input-group input-mini mb-3">
 							<span class="input-group-text"><i class="fa fa-user"></i></span>
 							<input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username">

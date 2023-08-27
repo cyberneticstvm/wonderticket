@@ -15,5 +15,6 @@ class Number extends Model
         'play_id',
         'number',
         'number_count',
+        'option_id',
     ];
 }

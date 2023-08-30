@@ -50,13 +50,21 @@ class UserController extends Controller
         $this->validate($request, [
             'from_date' => 'required',
             'to_date' => 'required',
-            'play' => 'required',
+            'type' => 'required',
         ]);
         $inputs = array($request->from_date, $request->to_date, $request->play, $request->type);
         if($request->type == 1):
-            $data = Play::where('user_id', $request->user()->id)->where('play_category', $request->play)->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
+            $data = Play::where('user_id', $request->user()->id)->when($request->play > 0, function($q) use ($request) {
+                return $q->where('play_category', $request->play);
+            })->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
+        elseif($request->type == 2):
+            $data = Winner::whereBetween('date', [$request->from_date, $request->to_date])->when($request->play > 0, function($q) use ($request) {
+                return $q->where('play_id', $request->play);
+            })->orderByDesc('date')->get();
         else:
-            $data = Winner::where('play_id', $request->play)->whereBetween('date', [$request->from_date, $request->to_date])->orderByDesc('date')->get();
+            $data = Number::leftJoin('plays', 'numbers.play_id', 'plays.id')->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
+                return $q->where('plays.play_category', $request->play);
+            })->latest()->get();
         endif;
         return view('reports', compact('inputs', 'data'));
     }
@@ -70,6 +78,7 @@ class UserController extends Controller
             'play_category' => 'required',
             'numbers' => 'present|array',
             'counts' => 'present|array',
+            'selected_option' => 'required',
         ]);
         $input = $request->all();
         $input['user_id'] = $request->user()->id;
@@ -79,6 +88,7 @@ class UserController extends Controller
                 foreach($request->numbers as $key => $value):
                     $nums [] = [
                         'play_id' => $play->id,
+                        'option_id' => $request->selected_option,
                         'number' => $value,
                         'number_count' => $request->counts[$key],
                     ];

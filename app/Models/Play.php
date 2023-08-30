@@ -24,4 +24,9 @@ class Play extends Model
     public function numbers(){
         return $this->hasMany(Number::class, 'play_id', 'id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    
 }

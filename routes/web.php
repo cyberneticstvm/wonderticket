@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LeaderController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,13 +60,6 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(AdminCo
     Route::delete('winner/delete/{id}', 'deleteWinner')->name('winner.delete');
 
     Route::get('logout', 'logout')->name('admin.logout');
-});
-
-Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->controller(ReportController::class)->group(function(){
-    Route::get('reports/winner', 'reportWinner')->name('report.winner');
-    Route::post('reports/winner', 'reportWinnerFetch')->name('report.winner.fetch');
-    Route::get('reports/sales', 'reportSales')->name('report.sales');
-    Route::post('reports/sales', 'reportSalesFetch')->name('report.sales.fetch');
 });
 
 Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserController::class)->group(function(){

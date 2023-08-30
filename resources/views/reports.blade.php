@@ -8,19 +8,7 @@
             <div class="text-center">@include("message")</div>
             <form method="post" action="{{ route('user.reports.fetch') }}">
                 @csrf
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-2 text-center">
-                            <label class="form-label">Order</label>
-                            {{ html()->radio($name = 'type', $checked = ($inputs && $inputs[3] == 1) ? true : false, $value = '1')->class('form-control radio') }}
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="mb-2 text-center">
-                            <label class="form-label">Winner</label>
-                            {{ html()->radio($name = 'type', $checked = ($inputs && $inputs[3] == 2) ? true : false, $value = '2')->class('form-control radio') }}
-                        </div>
-                    </div>                    
+                <div class="row">                  
                     <div class="col-6">
                         <div class="mb-2">
                             <label class="form-label">From Date</label>
@@ -42,10 +30,16 @@
                     <div class="col-12">
                         <div class="mb-2">
                             <label class="form-label">Play</label>
-                            {{ html()->select($name = 'play', $value=plays()->where('status', 1)->pluck('name', 'id'), ($inputs && $inputs[2]) ? $inputs[2] : old('play'))->class('form-control form-control-md')->placeholder('Select')->required() }}
+                            {{ html()->select($name = 'play', $value=plays()->where('status', 1)->pluck('name', 'id'), ($inputs && $inputs[2]) ? $inputs[2] : old('play'))->class('form-control form-control-md')->placeholder('Select') }}
                         </div>
-                        @error('play')
-                            <small class="text-danger">{{ $errors->first('play') }}</small>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-2">
+                            <label class="form-label">Report Type</label>
+                            {{ html()->select($name = 'type', $value=array('1'=>'Sales Report', '2' => 'Winner Report', '3' => 'Net Pay Report'), ($inputs && $inputs[3]) ? $inputs[3] : old('type'))->class('form-control form-control-md')->placeholder('Select')->required() }}
+                        </div>
+                        @error('type')
+                            <small class="text-danger">{{ $errors->first('type') }}</small>
                         @enderror
                     </div>
                 </div>
@@ -58,73 +52,58 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    @if($data && $inputs && $inputs[3] == 1)
-                        <h5>Order Report</h5>
-                        <div class="item-list style-2 recent-jobs-list">
-                            <ul>
-                                @forelse($data as $key => $play)
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media media media-60">
-                                                <img src="{{ asset('/frontend/assets/images/food/pic3.png') }}" alt="logo">
-                                            </div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <h6 class="item-title">{{ $play->play->name }}</h6>
-                                                </div>
-                                                <div class="item-footer">
-                                                    <div class="d-flex align-items-center">
-                                                        @forelse($play->numbers as $key1 => $number)
-                                                            Number: {{ $number->number }} | Count: {{ $number->number_count }}<br>
-                                                        @empty
-                                                        @endforelse
-                                                    </div>    
-                                                    <span>{{ $play->created_at->format('d/M/Y') }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @empty
-                                @endforelse
-                            </ul>   
-                        </div>
-                    @elseif($data && $inputs && $inputs[3] == 2)
-                        <h5>Winner Report</h5>
-                        <div class="item-list style-2 recent-jobs-list">
-                            <ul>
-                                @forelse($data as $key => $play)
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media media media-60">
-                                                <img src="{{ asset('/frontend/assets/images/food/pic3.png') }}" alt="logo">
-                                            </div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
-                                                    <h6 class="item-title">{{ $play->name }}</h6>
-                                                </div>
-                                                <div class="item-footer">
-                                                    <div class="d-flex align-items-center">
-                                                    @if(!empty(winner($play->id)))
-                                                        @forelse(winner($play->id)->positions as $key1 => $postion)
-                                                            Position {{ $postion->position }}: {{ $postion->value }}<br>
-                                                        @empty
-                                                        @endforelse
-                                                    @else
-                                                        Winner yeto be declared!
-                                                    @endif
-                                                    </div>    
-                                                    <span>{{ date('d/M/Y') }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @empty
-                                @endforelse
-                            </ul>   
-                        </div>
-                    @else
-                        <p class="text-center">No records found</p>
+                <div class="col-12 table-responsive">
+                    @if($inputs && $inputs[3] == 1)
+                    <table class="table table-sm table-striped">
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Ticket Count</th></tr></thead><tbody>
+                            @forelse($data as $key => $item)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item->created_at->format('d/M/Y') }}</td>
+                                <td>{{ $item->play->name }}</td>
+                                <td>{{ options()->find($item->numbers()->first()->option_id)->name }}</td>
+                                <td>{{ $item->numbers()->sum('number_count') }}</td>
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
+                    @endif
+                    @if($inputs && $inputs[3] == 2)
+                    <table class="table table-sm table-striped">
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Winners</th></tr></thead><tbody>
+                            @forelse($data as $key => $item)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item->created_at->format('d/M/Y') }}</td>
+                                <td>{{ $item->play->name }}</td>
+                                <td>{{ $item->positions()->pluck('value')->implode(', ') }}</td>
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
+                    @endif
+                    @if($inputs && $inputs[3] == 3)
+                    <table class="table table-sm table-striped">
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>option</th><th>Count</th><th>Buy</th><th>Won</th><th>Profit</th></tr></thead><tbody>
+                            @forelse($data as $key => $item)
+                            @php($sell = calculateCost($item->created_at, $item->play->play->id, $item->number, $item->number_count, $item->option_id))
+                            @php($buy = $item->getOption->user_cost*$item->number_count)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $item->created_at->format('d/m/y') }}</td>                                
+                                <td>{{ $item->play->play->name }}</td>                                
+                                <td>{{ $item->getOption->name }}</td>                                
+                                <td>{{ $item->number_count }}</td>                                
+                                <td>₹{{ number_format($buy, 0) }}</td>                                
+                                <td>₹{{ number_format($sell, 0) }}</td>                                
+                                <td>₹{{ number_format($buy-$sell) }}</td>                                
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
                     @endif
                 </div>
             </div>

@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
     use HasFactory;
+
+    public function options(){
+        return $this->hasMany(PrizeSetting::class, 'id', 'option_id');
+    }
 }

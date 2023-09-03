@@ -39,10 +39,10 @@
                                 <small class="text-danger">{{ $errors->first('date') }}</small>
                                 @enderror
                             </div>
-                            @forelse(prizes()->where('status', 1) as $key1 => $prize)                            
+                            @forelse(prizes()->where('status', 1)->where('option_id', 1) as $key1 => $prize)                            
                             <div class="col-sm-2">
-                                <label class="form-label req">Position {{$prize->position}}</label>
-                                <input type="hidden" name="positions[]" value="{{$prize->position}}" />
+                                <label class="form-label req">Position {{$prize->id}}</label>
+                                <input type="hidden" name="positions[]" value="{{$prize->id}}" />
                                 <input type="text" name="position_values[]" maxlength="3" class="form-control form-control-md" placeholder="xxx" required>
                                 @error('name')
                                 <small class="text-danger">{{ $errors->first('name') }}</small>

@@ -30,7 +30,7 @@
                     <div class="col-2">
                         <div class="mb-2 text-center radio square-radio">
                             <label class="radio-label">A
-                                {{ html()->radio($name = 'option', $checked = true, $value = '1')->class('radOption') }}
+                                {{ html()->radio($name = 'option', $checked = false, $value = '1')->class('radOption') }}
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -38,7 +38,7 @@
                     <div class="col-2">
                         <div class="mb-2 text-center radio square-radio">
                             <label class="radio-label">B
-                                {{ html()->radio($name = 'option', $checked = true, $value = '2')->class('radOption') }}
+                                {{ html()->radio($name = 'option', $checked = false, $value = '2')->class('radOption') }}
                                 <span class="checkmark"></span>
                             </label>
                         </div>

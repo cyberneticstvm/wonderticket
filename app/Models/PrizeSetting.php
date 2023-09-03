@@ -12,4 +12,8 @@ class PrizeSetting extends Model
     public $timestamps = false;
 
     protected $guarded = [];
+
+    public function options(){
+        return $this->belongsTo(Option::class, 'option_id', 'id');
+    }
 }

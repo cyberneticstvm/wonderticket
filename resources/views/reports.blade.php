@@ -94,7 +94,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->created_at->format('d/m/y') }}</td>                                
                                 <td>{{ $item->play->play->name }}</td>                                
-                                <td>{{ $item->getOption->name }}</td>                                
+                                <td>{{ $item->getOption->name }}</td>
                                 <td>{{ $item->number_count }}</td>                                
                                 <td>₹{{ number_format($buy, 0) }}</td>                                
                                 <td>₹{{ number_format($sell, 0) }}</td>                                

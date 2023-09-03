@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 function prizes(){
-    return PrizeSetting::orderByDesc('status')->get();
+    return PrizeSetting::orderBy('id')->get();
 }
 
 function plays(){
@@ -40,7 +40,7 @@ function calculateCost($date, $play, $number, $count, $option){
     switch($option):        
         case 1:
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->where('value', $number)->whereDate('created_at', $date)->where('play_id', $play)->first();             
-            $prize = ($winner && $winner->position > 0) ? PrizeSetting::findOrFail($winner->position) : NULL;
+            $prize = ($winner) ? PrizeSetting::findOrFail($winner->position) : NULL;
             $count = ($winner->position == 6) ? 1 : $count; // Only 30 prizes for 6th position. So need to reset the count to be 1
             $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;
             break;
@@ -49,28 +49,34 @@ function calculateCost($date, $play, $number, $count, $option){
             break;
         case 3:           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', $number.'%')->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
         case 4:           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', '%'.$number)->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
         case 5:
             $arr = array_map('intval', str_split($number));           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', $arr[0].'%'.$arr[1])->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
         case 6:           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', $number.'%')->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
         case 7:           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', '%'.$number.'%')->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
         case 8:           
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', 'LIKE', $number.'%')->first();
-            $cost = 1*$count;        
+            $prize = ($winner) ? PrizeSetting::where('option_id', $option)->where('position', 1)->first() : NULL;
+            $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;        
             break;
     endswitch;
     return $cost;

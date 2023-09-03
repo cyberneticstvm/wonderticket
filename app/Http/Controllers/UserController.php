@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    public function signin(){
+        if(Auth::check() && Auth::user()->type == 'leader'):
+            return redirect('/leader/dash');
+        elseif(Auth::check() &&  Auth::user()->type == 'user'):
+            return redirect('/user/dash');
+        else:
+            return view('login');
+        endif;        
+    }
+
     public function login(Request $request){
         $this->validate($request, [
             'username' => 'required',
@@ -108,6 +118,18 @@ class UserController extends Controller
 
     public function message(){
         return view('errors.401');
+    }
+
+    function deleteNumber($id){
+        $play = Number::findOrFail($id)->play->play;
+        $time = Carbon::now()->format("H:i:s");
+        $chk = PlayCategory::where('id', $play->id)->where('entry_locked_from', '>', $time)->first();
+        if($chk):
+            Number::findOrFail($id)->delete();
+            return redirect()->back()->withSuccess('Number deleted successfully.');
+        else:
+            return redirect()->back()->withError('Failed to delete.');
+        endif;
     }
 
     public function logout(){

@@ -19,11 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 })->name('index');
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
-Route::post('/', [UserController::class, 'login'])->name('user.login');
+Route::get('/login', [UserController::class, 'signin'])->name('login');
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
 Route::get('/admin', function () {
     return view('admin.login');
@@ -71,6 +69,7 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
     Route::post('buy', 'saveNumbers')->name('user.save.numbers')->middleware('checkplay');
     Route::get('misc', 'misc')->name('user.misc');
+    Route::get('number/delete/{id}', 'deleteNumber')->name('user.delete.number');
     Route::get('logout', 'logout')->name('user.logout');
 });
 

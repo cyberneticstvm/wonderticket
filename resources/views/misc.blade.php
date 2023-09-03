@@ -8,7 +8,7 @@
             <div class="order-status">
                 <h5 class="title mb-2">Plays</h5>
             </div>
-            
+            @include("message")
             <div class="item-list style-2 recent-jobs-list">
                 <ul>
                     @forelse($plays as $key => $play)
@@ -24,11 +24,11 @@
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
                                             @forelse($play->numbers as $key1 => $number)
-                                                Number: {{ $number->number }} | Count: {{ $number->number_count }}<br>
+                                                Number: {{ $number->number }} | Count: {{ $number->number_count }}&nbsp;<a href="{{ route('user.delete.number', $number->id) }}" onclick="return confirm('Are you sure want to delete this record?')">Delete</a><br>
                                             @empty
                                             @endforelse
                                         </div>    
-                                        <span>{{ $play->created_at->format('d/M/Y h:i a') }}</span>
+                                        <span>{{ $play->created_at->format('d/M/Y') }}</span>
                                     </div>
                                 </div>
                             </div>

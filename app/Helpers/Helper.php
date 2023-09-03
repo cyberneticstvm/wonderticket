@@ -83,14 +83,14 @@ function calculateCost($date, $play, $number, $count, $option){
 }
 
 function checkCombination($number, $date, $play, $count){
-    $chk = false; $num = 0;
+    $chk = false; $num = 0; $winner = [];
     $arr = array_map('intval', str_split($number));    
     for($i=0; $i<3; $i++):
         for($j=0; $j<3; $j++):
             for($k=0; $k<3; $k++):
                 if($i!=$j && $j!=$k && $i!=$k):
                     $num = $arr[$i].$arr[$j].$arr[$k];
-                    $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', $num)->where('position', 1)->first(); // Check only for first prize so that position should be set as 1
+                    $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->whereDate('created_at', $date)->where('play_id', $play)->where('value', $num)->first();
                     $chk = ($winner) ? true : false;
                     if($chk) break;
                 endif;
@@ -99,7 +99,7 @@ function checkCombination($number, $date, $play, $count){
             if($chk) break;
         endfor;
     endfor;
-    $prize = PrizeSetting::findOrFail(1); // If any combination matches with number, first prize should be rewarded.
+    $prize = ($chk) ? PrizeSetting::where('position', $winner->position)->where('option_id', 2)->first() : NULL;
     return ($chk) ? $prize->prize_count*$prize->amount*$count : 0;
 }
 

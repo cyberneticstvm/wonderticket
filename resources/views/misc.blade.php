@@ -24,7 +24,7 @@
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
                                             @forelse($play->numbers as $key1 => $number)
-                                                <tr><td>Number: {{ $number->number }}</td><td>Count: {{ $number->number_count }}</td><td><a href="{{ route('user.delete.number', $number->id) }}" onclick="return confirm('Are you sure want to delete this record?')">Delete</a></td></tr>
+                                                <tr><td>Number: {{ $number->number }} | </td><td>Count: {{ $number->number_count }} | </td><td><a href="{{ route('user.delete.number', $number->id) }}" onclick="return confirm('Are you sure want to delete this record?')">Delete</a></td></tr>
                                             @empty
                                             @endforelse
                                         </div>    

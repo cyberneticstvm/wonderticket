@@ -22,7 +22,7 @@
         <div class="row g-3 clearfix">
             <div class="card mb-2">
                 <div class="card-body p-4 table-responsive">
-                    <p class= "text-end my-3"><a href="/admin/prize/create/"><i class="fa fa-plus fa-lg text-success fw-bold"></i></a></p>
+                    <!--<p class= "text-end my-3"><a href="/admin/prize/create/"><i class="fa fa-plus fa-lg text-success fw-bold"></i></a></p>-->
                     <table id="dataTbl" class="table table-striped table-hover align-middle table-sm">
                         <thead><tr><th>SL No</th><th>Position</th><th>Prize Count</th><th>Amount</th><th>Super</th><th>Status</th><th>Edit</th></tr></thead>
                         <tbody>

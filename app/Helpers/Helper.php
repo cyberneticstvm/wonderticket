@@ -41,7 +41,7 @@ function calculateCost($date, $play, $number, $count, $option){
         case 1:
             $winner = WinnerDetails::leftJoin('winners', 'winners.id', 'winner_details.winner_id')->where('value', $number)->whereDate('created_at', $date)->where('play_id', $play)->first();             
             $prize = ($winner) ? PrizeSetting::findOrFail($winner->position) : NULL;
-            $count = ($winner->position == 6) ? 1 : $count; // Only 30 prizes for 6th position. So need to reset the count to be 1
+            $count = ($winner && $winner->position == 6) ? 1 : $count; // Only 30 prizes for 6th position. So need to reset the count to be 1
             $cost = ($prize) ? $prize->prize_count*$prize->amount*$count : 0;
             break;
         case 2:           

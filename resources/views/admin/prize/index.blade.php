@@ -24,7 +24,7 @@
                 <div class="card-body p-4 table-responsive">
                     <!--<p class= "text-end my-3"><a href="/admin/prize/create/"><i class="fa fa-plus fa-lg text-success fw-bold"></i></a></p>-->
                     <table id="dataTbl" class="table table-striped table-hover align-middle table-sm">
-                        <thead><tr><th>SL No</th><th>Position</th><th>Prize Count</th><th>Amount</th><th>Super</th><th>Status</th><th>Edit</th></tr></thead>
+                        <thead><tr><th>SL No</th><th>Position</th><th>Prize Count</th><th>Amount</th><th>Super</th><th>Status</th><!--<th>Edit</th>--></tr></thead>
                         <tbody>
                             @php $c = 1; @endphp
                             @forelse(prizes() as $key => $prize)
@@ -35,7 +35,7 @@
                                 <td>{{ $prize->amount }}</td>
                                 <td>{{ $prize->super }}</td>
                                 <td>{!! ($prize->status == 1) ? 'Active' : '<span class="text-danger">Inactive</span>' !!}</td>
-                                <td class="text-center"><a href="/admin/prize/edit/{{encrypt($prize->id)}}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                <!--<td class="text-center"><a href="/admin/prize/edit/{{encrypt($prize->id)}}"><i class="fa fa-pencil text-warning"></i></a></td>-->
                             </tr>
                             @empty
                             @endforelse

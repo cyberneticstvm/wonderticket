@@ -45,7 +45,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-12 mb-3">
-                                        <label>Email</label>
+                                        <label>Status</label>
                                         {{ html()->select($name="status", array(1=>'Active', 0=>'Inactive'), $value=$user->status)->class('form-control')->placeholder('Email')->required()}}
                                         @error('status')
                                             <small class="text-danger">{{ $errors->first('status') }}</small>

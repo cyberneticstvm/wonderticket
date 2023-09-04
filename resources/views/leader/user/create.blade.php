@@ -63,7 +63,7 @@
                 <div class="col-12 table-responsive">
                     <h5>Users List</h5>
                     <table class="table table-sm table-striped">
-                        <thead><tr><th>SL No.</th><th>Full Name</th><th>Phone</th><th>Email</th><th>Edit</th></tr></thead>
+                        <thead><tr><th>SL No.</th><th>Full Name</th><th>Phone</th><th>Email</th><th>Status</th><th>Edit</th><th>Delete</th></tr></thead>
                         <tbody>
                             @forelse($users as $key => $item)
                             <tr>
@@ -71,7 +71,9 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->phone }}</td>
                                 <td>{{ $item->email }}</td>
+                                <td>{{ $item->status() }}</td>
                                 <td class="text-center"><a href="{{ route('leader.user.edit', encrypt($item->id)) }}"><i class="fa fa-pencil text-warning"></i></a></td>
+                                <td class="text-center"><a href="{{ route('leader.user.delete', encrypt($item->id)) }}"><i class="fa fa-trash text-danger"></i></a></td>
                             </tr>
                             @empty
                             @endforelse

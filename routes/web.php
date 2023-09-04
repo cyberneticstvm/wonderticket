@@ -76,12 +76,15 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
 Route::middleware(['web', 'auth', 'leader'])->prefix('leader')->controller(LeaderController::class)->group(function(){
     Route::get('message', 'message')->name('message');
     Route::get('dash', 'index')->name('leader.dash');
-    
+    Route::get('profile', 'profile')->name('leader.profile');
     Route::get('user/create', 'createUser')->name('leader.user.create');
     Route::post('user/create', 'saveUser')->name('leader.user.save');
     Route::get('user/edit/{id}', 'editUser')->name('leader.user.edit');
     Route::put('user/edit/{id}', 'updateUser')->name('leader.user.update');
-    Route::delete('user/delete/{id}', 'deleteUser')->name('leader.user.delete');
+    Route::get('user/delete/{id}', 'deleteUser')->name('leader.user.delete');
+    Route::get('misc', 'misc')->name('leader.misc');
+    Route::get('reports', 'reports')->name('leader.reports');
+    Route::post('reports', 'getReports')->name('leader.reports.fetch');
 
     Route::get('logout', 'logout')->name('leader.logout');
 });

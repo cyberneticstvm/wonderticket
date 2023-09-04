@@ -38,4 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function status(){
+        return ($this->status == 1) ? "Active" : "Inactive";
+    }
 }

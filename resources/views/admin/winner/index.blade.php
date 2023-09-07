@@ -72,7 +72,7 @@
                                 <td>{{ $winner->play->name }}</td>
                                 <td>{{ $winner->date->format('d-M-Y') }}</td>
                                 <td>
-                                    @forelse($winner->positions() as $key1 => $item)
+                                    @forelse($winner->positions as $key1 => $item)
                                         {{ $item->value }}
                                     @empty
                                     @endforelse

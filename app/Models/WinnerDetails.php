@@ -10,4 +10,8 @@ class WinnerDetails extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function winner(){
+        return $this->belongsTo(PrizeSetting::class, 'id', 'position');
+    }
 }

@@ -71,7 +71,13 @@
                                 <td>{{ $c++ }}</td>
                                 <td>{{ $winner->play->name }}</td>
                                 <td>{{ $winner->date->format('d-M-Y') }}</td>
-                                <td>{{ $winner->positions->pluck('value')->implode(',') }}</td>
+                                <td>
+                                    @forelse($winner->positions() as $key => $item)
+                                        @php $position = ($key >5) ? 'Position: '.$key : 'Complement: '$key-5 @endphp
+                                        {{ $position.': '.$item->value.', Prize: '.$item->prize->amount }}
+                                    @empty
+                                    @endforelse
+                                </td>
                                 <td class="text-center">
                                     <form method="post" action="{{ route('winner.delete', $winner->id) }}">
                                         @csrf 

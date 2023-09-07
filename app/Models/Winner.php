@@ -18,6 +18,6 @@ class Winner extends Model
     }
 
     public function positions(){
-        return $this->hasMany(WinnerDetails::class, 'winner_id', 'id');
+        return $this->hasMany(WinnerDetails::class, 'id', 'winner_id');
     }
 }

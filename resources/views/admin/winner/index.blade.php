@@ -72,8 +72,7 @@
                                 <td>{{ $winner->play->name }}</td>
                                 <td>{{ $winner->date->format('d-M-Y') }}</td>
                                 <td>
-                                    @forelse($winner->positions as $key1 => $item)
-                                        @php $position = ($key1 > 5) ? 'Position: '.$key1 : 'Complement: '$key1-5 @endphp
+                                    @forelse($winner->positions() as $key1 => $item)
                                         {{ $position.': '.$item->value.', Prize: '.$item->prize->amount }}
                                     @empty
                                     @endforelse

@@ -12,6 +12,6 @@ class WinnerDetails extends Model
     protected $guarded = [];
 
     public function prize(){
-        return $this->belongsTo(PrizeSetting::class, 'id', 'position');
+        return $this->belongsTo(PrizeSetting::class, 'position', 'id');
     }
 }

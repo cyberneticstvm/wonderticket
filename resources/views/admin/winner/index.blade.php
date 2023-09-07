@@ -74,7 +74,7 @@
                                 <td>
                                     @php($c = 1)
                                     @forelse($winner->positions as $key1 => $item)
-                                        {{ "Position:".$c++.': '.$item->value.', Prize: '.$item->prize()->value('amount') }}<br>
+                                        {!! "Position:".$c++.': <b>'.$item->value.'</b>, Prize: '.$item->prize()->value('amount') !!}<br>
                                     @empty
                                     @endforelse
                                 </td>

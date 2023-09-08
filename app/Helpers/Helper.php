@@ -35,6 +35,20 @@ function winner($play_id){
     return Winner::where('play_id', $play_id)->whereDate('date', Carbon::today())->first();
 }
 
+function getWinner($number_ids, $play_id, $date){
+    $play = Play::findOrFail($play_id); $op = "";
+    $numbers = Number::whereIn('id', $number_ids)->get();
+    $winner = Winner::whereDate('created_at', $date)->where('play_id', $play->play_category)->first();
+    foreach($numbers as $key => $num):
+        if(in_array($num->number, $winner->positions()->pluck('value')->toArray())):
+            $position = WinnerDetails::where('value', $num->number)->where('winner_id', $winner->id)->first();
+            $prize = PrizeSetting::findOrFail($position->position);
+            $op .= "Number: ".$num->number." | Count: ".$num->number_count." | Prize: ₹".number_format($prize->amount*$num->number_count, 2)."<br>";
+        endif;
+    endforeach;
+    return $op;
+}
+
 function calculateCost($date, $play, $number, $count, $option){
     $cost = 0;
     switch($option):        

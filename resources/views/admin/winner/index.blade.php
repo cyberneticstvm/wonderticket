@@ -73,8 +73,12 @@
                                 <td>{{ $winner->date->format('d-M-Y') }}</td>
                                 <td>
                                     @php($c = 1)
-                                    @forelse($winner->positions as $key1 => $item)
-                                        {!! "Position:".$c++.': <b>'.$item->value.'</b>, Prize: '.$item->prize()->value('amount') !!}<br>
+                                    @forelse($winner->positions->take(5) as $key1 => $item)
+                                        {{ $item->position }}: {{ $item->value }}<br>
+                                    @empty
+                                    @endforelse
+                                    @forelse($winner->positions->skip(5) as $key1 => $item)
+                                        {{ $item->value }} | 
                                     @empty
                                     @endforelse
                                 </td>

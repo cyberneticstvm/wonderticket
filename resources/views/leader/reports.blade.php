@@ -47,6 +47,9 @@
                             <label class="form-label">User</label>
                             {{ html()->select($name = 'user', $value=$users->pluck('name', 'id'), ($inputs && $inputs[4]) ? $inputs[4] : old('user'))->class('form-control form-control-md')->placeholder('Select') }}
                         </div>
+                        @error('user')
+                            <small class="text-danger">{{ $errors->first('user') }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">
@@ -83,7 +86,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->created_at->format('d/M/Y') }}</td>
                                 <td>{{ $item->play->name }}</td>
-                                <td>{{ $item->positions()->pluck('value')->implode(', ') }}</td>
+                                <td>{!! getWinner($item->numbers()->pluck('id'), $item->id, $item->created_at) !!}</td>
                             </tr>
                             @empty
                             @endforelse

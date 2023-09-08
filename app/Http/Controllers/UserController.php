@@ -68,9 +68,9 @@ class UserController extends Controller
                 return $q->where('play_category', $request->play);
             })->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
         elseif($request->type == 2):
-            $data = Winner::whereBetween('date', [$request->from_date, $request->to_date])->when($request->play > 0, function($q) use ($request) {
-                return $q->where('play_id', $request->play);
-            })->orderByDesc('date')->get();
+            $data = Play::where('user_id', $request->user()->id)->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
+                return $q->where('play_category', $request->play);
+            })->orderByDesc('created_at')->get();
         else:
             $data = Number::leftJoin('plays', 'numbers.play_id', 'plays.id')->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
                 return $q->where('plays.play_category', $request->play);

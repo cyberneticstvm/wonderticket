@@ -77,7 +77,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->created_at->format('d/M/Y') }}</td>
                                 <td>{{ $item->play->name }}</td>
-                                <td>{{ $item->positions()->pluck('value')->implode(', ') }}</td>
+                                <td>{!! getWinner($item->numbers()->pluck('id'), $item->id, $item->created_at) !!}</td>
                             </tr>
                             @empty
                             @endforelse

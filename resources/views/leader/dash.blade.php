@@ -21,8 +21,12 @@
                                     <div class="item-footer">
                                         <div class="d-flex align-items-center">
                                         @if(!empty(winner($play->id)))
-                                            @forelse(winner($play->id)->positions as $key1 => $postion)
-                                                Position {{ $postion->position }}: {{ $postion->value }}<br>
+                                            @forelse(winner($play->id)->positions->take(5) as $key1 => $postion)
+                                                {{ $postion->position }}: {{ $postion->value }}<br>
+                                            @empty
+                                            @endforelse
+                                            @forelse(winner($play->id)->positions->skip(5) as $key1 => $postion)
+                                                {{ $postion->value }} | 
                                             @empty
                                             @endforelse
                                         @else

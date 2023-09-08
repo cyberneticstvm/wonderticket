@@ -20,7 +20,7 @@
         <div class="contact-section">
             <div class="d-flex justify-content-between align-item-center">
                 <h5 class="title">Contacts</h5>
-                <a href="{{ route('user.logout') }}" class="btn-link">Logout</a>
+                <a href="{{ route('leader.logout') }}" class="btn-link">Logout</a>
             </div>
             <ul>
                 <li>

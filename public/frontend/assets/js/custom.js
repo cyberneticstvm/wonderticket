@@ -156,14 +156,14 @@ var Foodia = function(){
 		    setTimeout(function(){
     			jQuery('.pwa-offcanvas').addClass('show');
     			jQuery('.pwa-backdrop').addClass('fade show');
-    		}, 3000);
+    		}, 1000);
     		jQuery('.pwa-backdrop, .pwa-close, .pwa-btn').on('click',function(){
     			jQuery('.pwa-offcanvas').slideUp(500, function() {
     				jQuery(this).removeClass('show');
     			});
     			setTimeout(function(){
     				jQuery('.pwa-backdrop').removeClass('show');
-    			}, 500);
+    			}, 100);
     		}); 
 		}
 	}

@@ -15,6 +15,12 @@ function prizes(){
     return PrizeSetting::orderBy('id')->get();
 }
 
+function timediff(){
+    $play = PlayCategory::findOrFail(1);
+    $timediff = Carbon::parse($play->play_time)->diffInSeconds(Carbon::now());
+    return array('diff' => $timediff, 'time' => $play->play_time);
+}
+
 function plays(){
     return PlayCategory::orderByDesc('status')->get();
 }

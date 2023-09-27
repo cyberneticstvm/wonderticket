@@ -2,6 +2,9 @@ var maxval = 3;
 var options = "<option value=''>Select</option><option value='1'>KING</option><option value='2'>BOX-K</option>";
 $(function(){
     "use strict"
+
+    counter(parseInt($("#timeRemains").val()));
+
     $(".nums, .counts").attr("maxlength", maxval);
     $(".sel").html(options);
     $('form').submit(function(){
@@ -44,6 +47,16 @@ $(function(){
             $(this).closest(".numPanel").find(".counts").focus();
         }            
     });
+    
+    $(document).on("click", ".btnPlay", function(){
+        $(".selPlay").val($(this).data("playid"));
+        jQuery('.pwa-offcanvas').slideUp(500, function() {
+            jQuery(this).removeClass('show');
+        });
+        setTimeout(function(){
+            jQuery('.pwa-backdrop').removeClass('show');
+        }, 100);
+    })
 });
 
 function addNumPanel(){
@@ -55,3 +68,17 @@ function addNumPanel(){
 setTimeout(function () {
     $(".alert").hide('slow');
 }, 5000);
+
+function counter(seconds){
+    var timerId = setInterval(countdown, 1000);
+    var timeLeft = seconds;
+    var elem = document.getElementById('timeLeft');
+    function countdown() {
+        if (timeLeft == -1) {
+            clearTimeout(timerId);
+        } else {
+            elem.innerHTML = "Time left for next play <span class='text-success fw-bold'>"+timeLeft + '</span> seconds';
+            timeLeft--;
+        }
+    }
+}

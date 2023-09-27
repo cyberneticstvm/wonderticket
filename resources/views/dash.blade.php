@@ -45,5 +45,25 @@
         </div>
     </div>
 </div>
+<!-- PWA Offcanvas -->
+<div class="offcanvas offcanvas-top pwa-offcanvas">
+    <div class="container">
+        <div class="offcanvas-body small">
+            <div class="row g-2">
+                <div class="col-12">
+                    <a href="/user/buy" type="button" class="btn btn-primary btn-lg w-100">Add New</a>
+                </div>
+                <div class="col-12">
+                    <a href="/user/reports" type="button" class="btn btn-warning btn-lg w-100">Reports</a>
+                </div>
+                <div class="col-12">
+                    <a type="button" class="btn btn-info btn-lg w-100">Manage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas-backdrop pwa-backdrop"></div>
+<!-- PWA Offcanvas End -->
 <!-- Page Content End-->
 @endsection

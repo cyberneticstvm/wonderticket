@@ -13,7 +13,7 @@
                         <div class="mb-3">
                             <label class="form-label">Play</label>
                             <!--{{ html()->select($name = 'play', plays()->where('status', 1)->pluck('name', 'id'), $value = old('play'))->class('form-control form-control-md')->placeholder('Select') }}-->
-                            <select name="play_category" class="form-control form-control-md" required>
+                            <select name="play_category" class="selPlay form-control form-control-md" required>
                                 <option value="">Select</option>
                                 @forelse(plays()->where('status', 1) as $key => $play)
                                     @php $from_time = plays()->where('id', $play->id)->first()->entry_locked_from; $to_time = plays()->where('id', $play->id)->first()->entry_locked_to; @endphp
@@ -86,5 +86,27 @@
         </div>
     </div>
 </div>
+<!-- PWA Offcanvas -->
+<div class="offcanvas offcanvas-top pwa-offcanvas">
+    <div class="container">
+        <div class="offcanvas-body small">
+            <div class="row g-2">
+                @forelse(plays()->where('status', 1) as $key => $play)
+                @php $from_time = plays()->where('id', $play->id)->first()->entry_locked_from; $to_time = plays()->where('id', $play->id)->first()->entry_locked_to; @endphp
+                    @if((Carbon\Carbon::now()->between($from_time, $to_time)))
+
+                    @else
+                    <div class="col-12">
+                        <button type="button" class="btnPlay btn {{ $play->class }} btn-lg w-100" data-playid="{{ $play->id }}" >{{ $play->name }}</button>
+                    </div>
+                    @endif
+                @empty
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas-backdrop pwa-backdrop"></div>
+<!-- PWA Offcanvas End -->
 <!-- Page Content End-->
 @endsection

@@ -136,10 +136,18 @@
 
     <!-- Banner -->
     <div class="author-notification">
-        <div class="container inner-wrapper">
+        <div class="container">
             <div class="dz-info">
-                <span class="text-dark">Hi,</span>
-                <h3 class="name mb-0">{{ Auth::user()->name }} 👋</h3>
+                <div class="row">
+                    <div class="col">
+                        <span class="text-dark">Hi,</span>
+                        <h3 class="name mb-0">{{ Auth::user()->name }} 👋</h3>
+                    </div>
+                    <input type="hidden" name="" id="timeRemains" value="{{ timediff()['diff'] }}" />
+                    <div class="col text-end" id="timeLeft">
+                        
+                    </div>
+                </div>
             </div>	
         </div>
     </div>

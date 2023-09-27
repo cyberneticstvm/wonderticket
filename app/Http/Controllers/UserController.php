@@ -68,9 +68,14 @@ class UserController extends Controller
                 return $q->where('play_category', $request->play);
             })->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
         elseif($request->type == 2):
-            $data = Play::where('user_id', $request->user()->id)->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
+            /*$data = Play::where('user_id', $request->user()->id)->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
                 return $q->where('play_category', $request->play);
-            })->orderByDesc('created_at')->get();
+            })->orderByDesc('created_at')->get();*/
+            $data = DB::table('numbers as n')->leftJoin('plays as p', 'n.play_id', 'p.id')->where('p.user_id', Auth::user()->id)->whereBetween('p.created_at',[Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
+                return $q->where('n.play_category', $request->play);
+            })->when($request->user > 0, function($q) use($request) {
+                return $q->where('p.user_id', $request->user);
+            })->selectRaw("SUM(n.number_count) AS number_count, n.number, n.option_id, n.play_category, date(p.created_at) AS created_at")->groupBy('n.play_Category', 'n.option_id', 'n.number', DB::raw("date(p.created_at)"))->OrderByDesc('p.created_at')->get();
         else:
             $data = Number::leftJoin('plays', 'numbers.play_id', 'plays.id')->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
                 return $q->where('plays.play_category', $request->play);
@@ -92,12 +97,19 @@ class UserController extends Controller
         ]);
         $input = $request->all();
         $input['user_id'] = $request->user()->id;
+        $pdate = PlayCategory::where('id', 1)->whereTime('play_time', '>', Carbon::parse(Carbon::now())->format('H:i:s'))->first();
+        if($pdate && $pdate->id > 0):
+            
+        else:
+            $input['created_at'] = Carbon::parse(Carbon::tomorrow())->startOfDay();
+        endif;
         try{
             DB::transaction(function() use ($request, $input){                
                 $play = Play::create($input);
                 foreach($request->numbers as $key => $value):
                     $nums [] = [
                         'play_id' => $play->id,
+                        'play_category' => $request->play_category,
                         'option_id' => $request->selected_option,
                         'number' => $value,
                         'number_count' => $request->counts[$key],
@@ -112,20 +124,21 @@ class UserController extends Controller
     }
 
     public function misc(){
-        $plays = Play::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->get();
-        return view('misc', compact('plays'));
+        //$plays = Play::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->get();
+        //$plays = Play::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->get();
+        $numbers = DB::table('numbers as n')->leftJoin('plays as p', 'n.play_id', 'p.id')->where('p.user_id', Auth::user()->id)->whereDate('p.created_at', Carbon::today())->selectRaw("SUM(n.number_count) AS number_count, n.number, n.option_id, n.play_category")->groupBy('n.play_Category', 'n.option_id', 'n.number')->OrderBy('n.number')->get();
+        return view('misc', compact('numbers'));
     }
 
     public function message(){
         return view('errors.401');
     }
 
-    function deleteNumber($id){
-        $play = Number::findOrFail($id)->play->play;
+    function deleteNumber($option, $number, $play){
         $time = Carbon::now()->format("H:i:s");
-        $chk = PlayCategory::where('id', $play->id)->where('entry_locked_from', '>', $time)->first();
+        $chk = PlayCategory::where('id', $play)->where('entry_locked_from', '>', $time)->first();
         if($chk):
-            Number::findOrFail($id)->delete();
+            Number::where('play_id', $play)->where('option_id', $option)->where('number', $number)->whereDate('created_at', Carbon::today())->delete();
             return redirect()->back()->withSuccess('Number deleted successfully.');
         else:
             return redirect()->back()->withError('Failed to delete.');

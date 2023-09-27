@@ -50,9 +50,9 @@
                 </div>
             </form>
         </div>
-        <div class="container">
+        <div class="container mb-50">
             <div class="row">
-                <div class="col-12 table-responsive">
+                <div class="col-12 table-responsive" style="height:100%; margin-bottom:50px;">
                     @if($inputs && $inputs[3] == 1)
                     <table class="table table-sm table-striped">
                         <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Ticket Count</th></tr></thead><tbody>
@@ -71,13 +71,16 @@
                     @endif
                     @if($inputs && $inputs[3] == 2)
                     <table class="table table-sm table-striped">
-                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Winners</th></tr></thead><tbody>
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Number</th><th>Count</th><th>Amount</th></tr></thead><tbody>
                             @forelse($data as $key => $item)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $item->created_at->format('d/M/Y') }}</td>
-                                <td>{{ $item->play->name }}</td>
-                                <td>{!! getWinner($item->numbers()->pluck('id'), $item->id, $item->created_at) !!}</td>
+                                <td>{{ date("d/M/Y", strtotime($item->created_at)) }}</td>
+                                <td>{{ plays()->find($item->play_category)?->name }}</td>
+                                <td>{{ options()->find($item->option_id)->name }}</td>
+                                <td>{{ $item->number }}</td>
+                                <td>{{ $item->number_count }}</td>
+                                <td>{!! getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id) !!}</td>
                             </tr>
                             @empty
                             @endforelse

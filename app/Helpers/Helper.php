@@ -17,7 +17,11 @@ function prizes(){
 
 function timediff(){
     $play = PlayCategory::findOrFail(1);
-    $timediff = Carbon::parse($play->play_time)->diffInSeconds(Carbon::now());
+    if($play->play_time > Carbon::now()->format('H:i:s')):
+        $timediff = Carbon::parse($play->play_time)->diffInSeconds(Carbon::now());
+    else:
+        $timediff = 0;
+    endif;
     return array('diff' => $timediff, 'time' => $play->play_time);
 }
 
@@ -41,17 +45,15 @@ function winner($play_id){
     return Winner::where('play_id', $play_id)->whereDate('date', Carbon::today())->first();
 }
 
-function getWinner($number_ids, $play_id, $date){
-    $play = Play::findOrFail($play_id); $op = "";
-    $numbers = Number::whereIn('id', $number_ids)->get();
-    $winner = Winner::whereDate('created_at', $date)->where('play_id', $play->play_category)->first();
-    foreach($numbers as $key => $num):
-        if(in_array($num->number, $winner->positions()->pluck('value')->toArray())):
-            $position = WinnerDetails::where('value', $num->number)->where('winner_id', $winner->id)->first();
-            $prize = PrizeSetting::findOrFail($position->position);
-            $op .= "Number: ".$num->number." | Count: ".$num->number_count." | Prize: ₹".number_format($prize->amount*$num->number_count, 2)."<br>";
-        endif;
-    endforeach;
+function getWinner($play_category, $date, $number, $count, $option){
+    $date = Carbon::parse($date)->toDate(); $op = "";
+    //$winner = Winner::with('positions')->whereDate('created_at', $date)->where('play_id', $play_category)->first();
+    //if($winner && in_array($number, $winner->positions()->pluck('value')->toArray())):
+        //$position = WinnerDetails::where('value', $number)->where('winner_id', $winner->id)->firstOrFail();
+        //$prize = PrizeSetting::findOrFail($position->position);
+        //$op .= "₹".number_format($prize->amount*$count, 2)."<br>";
+        $op = calculateCost($date, $play_category, $number, $count, $option);
+    //endif;
     return $op;
 }
 

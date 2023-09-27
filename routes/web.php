@@ -69,7 +69,7 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::get('buy', 'buyNumbers')->name('user.buy.numbers');
     Route::post('buy', 'saveNumbers')->name('user.save.numbers')->middleware('checkplay');
     Route::get('misc', 'misc')->name('user.misc');
-    Route::get('number/delete/{id}', 'deleteNumber')->name('user.delete.number');
+    Route::get('number/delete/{option}/{number}/{play}', 'deleteNumber')->name('user.delete.number');
     Route::get('logout', 'logout')->name('user.logout');
 });
 

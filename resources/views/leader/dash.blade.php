@@ -19,21 +19,31 @@
                                         <h6 class="item-title">{{ $play->name }}</h6>
                                     </div>
                                     <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                        @if(!empty(winner($play->id)))
-                                            @forelse(winner($play->id)->positions->take(5) as $key1 => $postion)
-                                                {{ $postion->position }}: {{ $postion->value }}<br>
-                                            @empty
-                                            @endforelse
-                                            @forelse(winner($play->id)->positions->skip(5) as $key1 => $postion)
-                                                {{ $postion->value }} | 
-                                            @empty
-                                            @endforelse
-                                        @else
-                                            Winner yeto be declared!
-                                        @endif
-                                        </div>    
-                                        <span>{{ date('d/M/Y') }}</span>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                @if(!empty(winner($play->id)))
+                                                    @forelse(winner($play->id)->positions->take(5) as $key1 => $postion)
+                                                        {{ $postion->position }}: {{ $postion->value }}<br>
+                                                    @empty
+                                                    @endforelse
+                                                @else
+                                                    Winner yeto be declared!
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 mt-3">
+                                                @if(!empty(winner($play->id)))
+                                                    <p class="fw-bold">COMPLEMENTS</p>                                            
+                                                    @forelse(winner($play->id)->positions1 as $key1 => $postion)
+                                                        {{ $postion->value }} | 
+                                                    @empty
+                                                    @endforelse
+                                                @else
+                                                    Winner yeto be declared!
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

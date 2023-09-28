@@ -8,6 +8,7 @@
             <div class="text-center">@include("message")</div>
             <form method="post" action="{{ route('user.reports.fetch') }}">
                 @csrf
+                <input type="hidden" name="user" value="{{ Auth::id() }}" />
                 <div class="row">                  
                     <div class="col-6">
                         <div class="mb-2">
@@ -55,57 +56,77 @@
                 <div class="col-12 table-responsive" style="height:100%; margin-bottom:50px;">
                     @if($inputs && $inputs[3] == 1)
                     <table class="table table-sm table-striped">
-                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Ticket Count</th></tr></thead><tbody>
-                            @forelse($data as $key => $item)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $item->created_at->format('d/M/Y') }}</td>
-                                <td>{{ $item->play->name }}</td>
-                                <td>{{ options()->find($item->numbers()->first()->option_id)->name }}</td>
-                                <td>{{ $item->numbers()->sum('number_count') }}</td>
-                            </tr>
-                            @empty
-                            @endforelse
-                        </tbody>
-                    </table>
-                    @endif
-                    @if($inputs && $inputs[3] == 2)
-                    <table class="table table-sm table-striped">
                         <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Number</th><th>Count</th><th>Amount</th></tr></thead><tbody>
+                            @php $tot = 0; $count = 0; @endphp
                             @forelse($data as $key => $item)
+                            @php
+                                $tot += options()->find($item->option_id)->user_cost * $item->number_count;
+                                $count += $item->number_count;
+                            @endphp
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ date("d/M/Y", strtotime($item->created_at)) }}</td>
                                 <td>{{ plays()->find($item->play_category)?->name }}</td>
                                 <td>{{ options()->find($item->option_id)->name }}</td>
                                 <td>{{ $item->number }}</td>
-                                <td>{{ $item->number_count }}</td>
+                                <td class="text-center">{{ $item->number_count }}</td>
+                                <td>{{ options()->find($item->option_id)->user_cost * $item->number_count }}</td>
+                            </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                        <tfoot><tr><td colspan="5" class="fw-bold text-end">Total</td><td class="fw-bold text-center">{{ $count }}</td><td class="fw-bold">{{ $tot }}</td></tr></tfoot>
+                    </table>
+                    @endif
+                    @if($inputs && $inputs[3] == 2)
+                    <table class="table table-sm table-striped">
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Number</th><th>Count</th><th>Amount</th></tr></thead><tbody>
+                            @php $tot = 0; $count = 0; @endphp
+                            @forelse($data as $key => $item)
+                            @php
+                                $tot += getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id);
+                                $count += $item->number_count;
+                            @endphp
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ date("d/M/Y", strtotime($item->created_at)) }}</td>
+                                <td>{{ plays()->find($item->play_category)?->name }}</td>
+                                <td>{{ options()->find($item->option_id)->name }}</td>
+                                <td>{{ $item->number }}</td>
+                                <td class="text-center">{{ $item->number_count }}</td>
                                 <td>{!! getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id) !!}</td>
                             </tr>
                             @empty
                             @endforelse
                         </tbody>
+                        <tfoot><tr><td colspan="5" class="fw-bold text-end">Total</td><td class="fw-bold text-center">{{ $count }}</td><td class="fw-bold">{{ $tot }}</td></tr></tfoot>
                     </table>
                     @endif
                     @if($inputs && $inputs[3] == 3)
                     <table class="table table-sm table-striped">
-                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>option</th><th>Count</th><th>Buy</th><th>Won</th><th>Profit</th></tr></thead><tbody>
+                        <thead><tr><th>SL No</th><th>Date</th><th>Play</th><th>Option</th><th>Number</th><th>Count</th><th>Purchase</th><th>Sales</th><th>Profilt/Loss</th></tr></thead><tbody>
+                            @php $sales = 0; $count = 0; $purchase = 0; @endphp
                             @forelse($data as $key => $item)
-                            @php($sell = calculateCost($item->created_at, $item->play->play->id, $item->number, $item->number_count, $item->option_id))
-                            @php($buy = $item->getOption->user_cost*$item->number_count)
+                            @php
+                                $sales += getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id);
+                                $count += $item->number_count;
+                                $purchase += options()->find($item->option_id)->user_cost * $item->number_count;
+                            @endphp
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $item->created_at->format('d/m/y') }}</td>                                
-                                <td>{{ $item->play->play->name }}</td>                                
-                                <td>{{ $item->getOption->name }}</td>
-                                <td>{{ $item->number_count }}</td>                                
-                                <td>₹{{ number_format($buy, 0) }}</td>                                
-                                <td>₹{{ number_format($sell, 0) }}</td>                                
-                                <td>₹{{ number_format($buy-$sell) }}</td>                                
+                                <td>{{ date("d/M/Y", strtotime($item->created_at)) }}</td>
+                                <td>{{ plays()->find($item->play_category)?->name }}</td>
+                                <td>{{ options()->find($item->option_id)->name }}</td>
+                                <td>{{ $item->number }}</td>
+                                <td class="text-center">{{ $item->number_count }}</td>
+                                <td>{{ options()->find($item->option_id)->user_cost * $item->number_count }}</td>
+                                <td>{{ getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id) }}</td>
+                                <td>{{ (options()->find($item->option_id)->user_cost * $item->number_count) - getWinner($item->play_category, $item->created_at, $item->number, $item->number_count, $item->option_id) }}</td>
                             </tr>
                             @empty
                             @endforelse
                         </tbody>
+                        <tfoot><tr><td colspan="5" class="fw-bold text-end">Total</td><td class="fw-bold text-center">{{ $count }}</td><td>{{ $purchase }}</td><td class="fw-bold">{{ $sales }}</td><td class="fw-bold">{{ $purchase - $sales }}</td></tr></tfoot>
                     </table>
                     @endif
                 </div>

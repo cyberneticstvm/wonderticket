@@ -253,5 +253,11 @@
 <script src="{{ asset('/frontend/assets/js/settings.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/custom.js') }}"></script>
 <script src="{{ asset('/frontend/assets/js/script.js') }}"></script>
+<script>
+    $(function(){
+        "use strict"
+        counter(parseInt($("#timeRemains").val()));
+    })
+</script>
 </body>
 </html>

@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class LeaderController extends Controller
 {
@@ -76,8 +77,8 @@ class LeaderController extends Controller
     }
 
     public function misc(){
-        $plays = Play::whereIn('user_id', User::where('leader_id', Auth::user()->id)->pluck('id'))->whereDate('created_at', Carbon::today())->get();
-        return view('leader.misc', compact('plays'));
+        $numbers = DB::table('numbers as n')->leftJoin('plays as p', 'n.play_id', 'p.id')->whereIn('p.user_id', User::where('leader_id', Auth::user()->id)->pluck('id'))->whereDate('p.created_at', Carbon::today())->selectRaw("SUM(n.number_count) AS number_count, n.number, n.option_id, n.play_category")->groupBy('n.play_Category', 'n.option_id', 'n.number')->OrderBy('n.number')->get();
+        return view('leader.misc', compact('numbers'));
     }
 
     public function profile(){
@@ -94,43 +95,16 @@ class LeaderController extends Controller
             'from_date' => 'required',
             'to_date' => 'required',
             'type' => 'required',
-            'user' => 'required',
         ]);
         $users = User::whereIn('id', User::where('leader_id', Auth::user()->id)->pluck('id'))->where('status', 1)->get();
+
         $inputs = array($request->from_date, $request->to_date, $request->play, $request->type, $request->user);
-        if($request->type == 1):
-            $data = Play::when($request->play > 0, function($q) use ($request) {
-                return $q->where('play_category', $request->play);
-            })->when($request->user > 0, function($q) use ($request) {
-                return $q->where('user_id', $request->user);
-            })->when($request->user == NULL, function($q){
-                return $q->whereIn('user_id', User::where('leader_id', Auth::user()->id)->pluck('id'));
-            })->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
-        elseif($request->type == 2):
-            $data = Play::whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
-                return $q->where('play_category', $request->play);
-            })->when($request->user > 0, function($q) use ($request) {
-                return $q->where('user_id', $request->user);
-            })->when($request->user == NULL, function($q){
-                return $q->whereIn('user_id', User::where('leader_id', Auth::user()->id)->pluck('id'));
-            })->orderByDesc('created_at')->get();
-        elseif($request->type == 3):
-            $data = Number::leftJoin('plays', 'numbers.play_id', 'plays.id')->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
-                return $q->where('plays.play_category', $request->play);
-            })->when($request->user > 0, function($q) use ($request) {
-                return $q->where('user_id', $request->user);
-            })->when($request->user == NULL, function($q){
-                return $q->whereIn('user_id', User::where('leader_id', Auth::user()->id)->pluck('id'));
-            })->latest()->get();
-        else:
-            $data = Play::when($request->play > 0, function($q) use ($request) {
-                return $q->where('play_category', $request->play);
-            })->when($request->user > 0, function($q) use ($request) {
-                return $q->where('user_id', $request->user);
-            })->when($request->user == NULL, function($q){
-                return $q->whereIn('user_id', User::where('leader_id', Auth::user()->id)->pluck('id'));
-            })->whereBetween('created_at', [Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->orderByDesc('created_at')->get();
-        endif;
+        
+        $data = DB::table('numbers as n')->leftJoin('plays as p', 'n.play_id', 'p.id')->whereBetween('p.created_at',[Carbon::parse($request->from_date)->startOfDay(), Carbon::parse($request->to_date)->endOfDay()])->when($request->play > 0, function($q) use ($request) {
+            return $q->where('n.play_category', $request->play);
+        })->when($request->user > 0, function($q) use($request) {
+            return $q->where('p.user_id', $request->user);
+        })->selectRaw("SUM(n.number_count) AS number_count, n.number, n.option_id, n.play_category, date(p.created_at) AS created_at")->groupBy('n.play_Category', 'n.option_id', 'n.number', DB::raw("date(p.created_at)"))->OrderByDesc('p.created_at')->get();
         return view('leader.reports', compact('inputs', 'data', 'users'));
     }
 }

@@ -3,8 +3,6 @@ var options = "<option value=''>Select</option><option value='1'>KING</option><o
 $(function(){
     "use strict"
 
-    counter(parseInt($("#timeRemains").val()));
-
     $(".nums, .counts").attr("maxlength", maxval);
     $(".sel").html(options);
     $('form').submit(function(){
@@ -21,7 +19,7 @@ $(function(){
             maxval = $(this).val();
         }
         $(".dlt").parent().parent().remove();
-        $(".nums, .counts").attr("maxlength", maxval);
+        $(".nums").attr("maxlength", maxval);
         $(".nums, .counts, .sel").val("");
         if(maxval == 3){
             options = "<option value=''>Select</option><option value='1'>KING</option><option value='2'>BOX-K</option>";            

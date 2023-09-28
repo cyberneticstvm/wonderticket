@@ -5,39 +5,27 @@
     <div class="container bottom-content"> 
         <div class="serach-area"> 
             <h5 class="text-center">Today's Order</h5>
-            <div class="order-status">
-                <h5 class="title mb-2">Plays</h5>
-            </div>
             @include("message")
-            <div class="item-list style-2 recent-jobs-list">
-                <ul>
-                    @forelse($plays as $key => $play)
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media media media-60">
-                                    <img src="{{ asset('/frontend/assets/images/food/pic3.png') }}" alt="logo">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <h6 class="item-title">{{ $play->play->name }}</h6>
-                                    </div>
-                                    <div class="item-footer">
-                                        <div class="d-flex align-items-center">
-                                            @forelse($play->numbers as $key1 => $number)
-                                                Number: {{ $number->number }} | Count: {{ $number->number_count }}<br>
-                                            @empty
-                                            @endforelse
-                                        </div>    
-                                        <span>{{ $play->created_at->format('d/M/Y') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    @empty
-                    @endforelse
-                </ul>   
-            </div>
-            <!-- Job List -->                    
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead><tr><th>SL No</th><th>Option</th><th>Play</th><th>Number</th><th>Count</th></tr></thead><tbody>
+                                @forelse($numbers as $key => $number)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ options()->find($number->option_id)->name }}</td>
+                                        <td>{{ plays()->find($number->play_category)?->name }}</td>
+                                        <td>{{ $number->number }}</td>
+                                        <td>{{ $number->number_count }}</td>                                        
+                                    </tr>
+                                @empty
+                                    <h5>No records found</h5>
+                                @endforelse
+                            </tbody></table>
+                    </div>
+                </div>
+            </div>                    
         </div>    
     </div>
 </div>

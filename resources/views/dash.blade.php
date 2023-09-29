@@ -67,7 +67,7 @@
                     <a href="/user/reports" type="button" class="btn btn-warning btn-lg w-100">Reports</a>
                 </div>
                 <div class="col-12">
-                    <a type="button" class="btn btn-info btn-lg w-100">Manage</a>
+                    <a type="button" class="btn btn-info btn-lg w-100 menu-toggler">Manage</a>
                 </div>
             </div>
         </div>

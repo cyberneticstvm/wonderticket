@@ -33,10 +33,15 @@ $(function(){
         $(".sel").html(options);
     });
 
-    $(document).on("keypress", ".nums, .counts", function(evt){
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+    $(document).on("keyup", ".nums, .counts", function(evt){
+        /*var ASCIICode = (evt.which) ? evt.which : evt.keyCode
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;
+        return true;*/
+        if(isNaN($(this).val())){
+            $(this).val("");
+            return false;
+        }
         return true;
     });
     $(document).on("keyup", ".nums", function(evt){
@@ -46,7 +51,7 @@ $(function(){
         }            
     });
     
-    $(document).on("click", ".btnPlay", function(){
+    $(document).on("click", ".btnPlay, .menu-toggler", function(){
         $(".selPlay").val($(this).data("playid"));
         jQuery('.pwa-offcanvas').slideUp(500, function() {
             jQuery(this).removeClass('show');

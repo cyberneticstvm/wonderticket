@@ -85,7 +85,7 @@ class UserController extends Controller
         ]);
         $input = $request->all();
         $input['user_id'] = $request->user()->id;
-        $pdate = PlayCategory::where('id', 1)->whereTime('play_time', '>', Carbon::parse(Carbon::now())->format('H:i:s'))->first();
+        $pdate = PlayCategory::where('id', $request->play_category)->whereTime('entry_locked_from', '>', Carbon::now()->format('H:i:s'))->first();
         if($pdate && $pdate->id > 0):
             
         else:

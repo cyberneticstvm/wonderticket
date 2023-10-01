@@ -1,5 +1,5 @@
 var maxval = 3;
-var options = "<option value=''>Select</option><option value='1'>KING</option><option value='2'>BOX-K</option>";
+var options = "<option value='1'>KING</option><option value='2'>BOX-K</option>";
 $(function(){
     "use strict"
 

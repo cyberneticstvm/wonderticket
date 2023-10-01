@@ -1,3 +1,9 @@
 .btn.btn-lg, .btn-group-lg > .btn{
     line-height: 3 !important;
 }
+.offcanvas .offcanvas-body{
+    margin-top: 40%;
+}
+.offcanvas.offcanvas-top{
+    bottom: 0 !important;
+}

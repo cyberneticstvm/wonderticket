@@ -19,7 +19,7 @@ $(function(){
             maxval = $(this).val();
         }
         $(".dlt").parent().parent().remove();
-        $(".nums").attr("maxlength", maxval);
+        //$(".nums").attr("max", maxval);
         $(".nums, .counts, .sel").val("");
         if(maxval == 3){
             options = "<option value=''>Select</option><option value='1'>KING</option><option value='2'>BOX-K</option>";            
@@ -33,17 +33,17 @@ $(function(){
         $(".sel").html(options);
     });
 
-    $(document).on("keyup", ".nums, .counts", function(evt){
-        /*var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+    /*$(document).on("keyup", ".nums, .counts", function(evt){
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;
-        return true;*/
+        return true;
         if(isNaN($(this).val())){
             $(this).val("");
             return false;
         }
         return true;
-    });
+    });*/
     $(document).on("keyup", ".nums", function(evt){
         var len = $(this).val().length
         if(len == maxval){
@@ -63,7 +63,7 @@ $(function(){
 });
 
 function addNumPanel(){
-    $(".numPanel").last().after("<div class='row numPanel'><div class='col-5 mb-2'><input type='text' name='numbers[]' id='numbers[]' class='form-control form-control-md nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-5 mb-2'><input type='text' name='counts[]' class='form-control form-control-md counts' placeholder='Count' maxlength='3' required /></div><div class='col-1'><a href='javascript:void(0)' class='dlt'>X</a></div></div>");
+    $(".numPanel").last().after("<div class='row numPanel'><div class='col-5 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='form-control form-control-md nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-5 mb-2'><input type='number' name='counts[]' min='1' max='999' step='1' class='form-control form-control-md counts' placeholder='Count' maxlength='3' required /></div><div class='col-1'><a href='javascript:void(0)' class='dlt'>X</a></div></div>");
     $(".nums").last().focus();
 }
 

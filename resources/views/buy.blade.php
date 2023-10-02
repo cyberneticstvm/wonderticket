@@ -63,13 +63,13 @@
                     <div class="col-5">
                         <div class="mb-2">
                             <label class="form-label">Number</label>
-                            {{ html()->text($name = 'numbers[]', NULL)->class('form-control form-control-md nums')->placeholder('Number')->required() }}
+                            {{ html()->number($name = 'numbers[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md nums')->placeholder('Number')->required() }}
                         </div>
                     </div>
                     <div class="col-5">
                         <div class="mb-2">
                             <label class="form-label">Count</label>
-                            {{ html()->text($name = 'counts[]', NULL)->class('form-control form-control-md counts')->maxlength(3)->placeholder('Count')->required() }}
+                            {{ html()->number($name = 'counts[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md counts')->placeholder('Count')->required() }}
                         </div>
                     </div>
                 </div>

@@ -71,6 +71,7 @@ Route::middleware(['web', 'auth', 'user'])->prefix('user')->controller(UserContr
     Route::get('misc', 'misc')->name('user.misc');
     Route::get('number/delete/{option}/{number}/{play}', 'deleteNumber')->name('user.delete.number');
     Route::get('logout', 'logout')->name('user.logout');
+    Route::get('/item/price/get/{type}/{count}', 'getItemPrice')->name('user.get.item.price');
 });
 
 Route::middleware(['web', 'auth', 'leader'])->prefix('leader')->controller(LeaderController::class)->group(function(){

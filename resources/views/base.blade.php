@@ -147,6 +147,9 @@
                     <div class="col text-end" id="timeLeft">
                         
                     </div>
+                    <div class="col text-end">
+                        Count: <span class="totCount">0</span>&nbsp;&nbsp;Rs.<span class="totRs">0.00</span>
+                    </div>
                 </div>
             </div>	
         </div>

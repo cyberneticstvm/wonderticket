@@ -60,18 +60,21 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-5">
-                        <div class="mb-2">
-                            <label class="form-label">Number</label>
-                            {{ html()->number($name = 'numbers[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md nums')->placeholder('Number')->required() }}
+                    <!--<div class="row">
+                        <div class="col-5">
+                            <div class="mb-2">
+                                <label class="form-label">Number</label>
+                                {{ html()->number($name = 'numbers[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md nums')->placeholder('Number')->required() }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-5">
-                        <div class="mb-2">
-                            <label class="form-label">Count</label>
-                            {{ html()->number($name = 'counts[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md counts')->placeholder('Count')->required() }}
+                        <div class="col-5">
+                            <div class="mb-2">
+                                <label class="form-label">Count</label>
+                                {{ html()->number($name = 'counts[]', NULL, $min="1", $max="999", $step="1")->class('form-control form-control-md counts')->placeholder('Count')->required() }}
+                            </div>
                         </div>
-                    </div>
+                        <div class='col-1'><a href='javascript:void(0)' class='dlt'><i class='fa fa-trash'></i></a></div>
+                    </div>-->
                 </div>
                 <div class="row">
                     <div class="col-9"></div>

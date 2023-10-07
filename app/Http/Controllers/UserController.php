@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Number;
+use App\Models\Option;
 use App\Models\Play;
 use App\Models\PlayCategory;
 use App\Models\Winner;
@@ -129,6 +130,13 @@ class UserController extends Controller
         else:
             return redirect()->back()->withError('Failed to delete.');
         endif;
+    }
+
+    public function getItemPrice($type, $count){
+        $option = Option::findOrFail($type);
+        return response()->json(array(
+            'amount' => $option->user_cost*$count,
+        ));
     }
 
     public function logout(){

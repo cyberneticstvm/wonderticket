@@ -96,7 +96,7 @@ function counter(seconds){
 }
 
 function getTotal(type){
-    var count = 0;
+    var count = 0; $(".totRs").html("");
     $(".counts").each(function(){
         count += parseInt($(this).val());
     });

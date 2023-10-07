@@ -139,15 +139,15 @@
         <div class="container">
             <div class="dz-info">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-6">
                         <span class="text-dark">Hi,</span>
                         <h3 class="name mb-0">{{ Auth::user()->name }} 👋</h3>
                     </div>
                     <input type="hidden" name="" id="timeRemains" value="{{ timediff()['diff'] }}" />
-                    <div class="col text-end" id="timeLeft">
+                    <div class="col-6 text-end" id="timeLeft">
                         
                     </div>
-                    <div class="col text-end">
+                    <div class="col-12 text-end">
                         Count: <span class="totCount">0</span>&nbsp;&nbsp;Rs.<span class="totRs">0.00</span>
                     </div>
                 </div>

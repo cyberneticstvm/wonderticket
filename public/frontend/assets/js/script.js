@@ -111,5 +111,5 @@ function getTotal(type){
             console.log(err);
         }
     });
-    $(".totCount").html(count);
+    $(".totCount").html(parseInt(count));
 }

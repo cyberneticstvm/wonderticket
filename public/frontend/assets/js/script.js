@@ -34,6 +34,7 @@ $(function(){
             options = "<option value='6'>A</option><option value='7'>B</option><option value='8'>C</option>";
         }
         $(".sel").html(options);
+        addNumPanel();
         getTotal($(".sel").val());
     });
 

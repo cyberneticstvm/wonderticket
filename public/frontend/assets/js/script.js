@@ -72,7 +72,7 @@ $(function(){
 });
 
 function addNumPanel(){
-    $(".numPanel").last().after("<div class='row numPanel'><div class='col-5 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='form-control form-control-md nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-5 mb-2'><input type='number' name='counts[]' min='1' max='999' step='1' class='form-control form-control-md counts' placeholder='Count' maxlength='3' required /></div><div class='col-1'><a href='javascript:void(0)' class='dlt'><i class='fa fa-trash'></i></a></div></div>");
+    $(".numPanel").last().after("<div class='row numPanel'><div class='col-4 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-4 mb-2'><input type='number' name='counts[]' min='1' max='999' step='1' class='counts' placeholder='Count' maxlength='3' required /></div><div class='col-2'><input type='number' class='' placeholder='0.00' readonly></div><div class='col-2'><a href='javascript:void(0)' class='dlt'><i class='fa fa-trash'></i></a></div></div>");
     $(".nums").last().focus();
 }
 

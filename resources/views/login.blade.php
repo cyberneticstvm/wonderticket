@@ -30,7 +30,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto+Slab:wght@100;300;500;600;800&display=swap" rel="stylesheet">
 
 </head>   
-<body class="theme-dark" data-theme-color="color-lime">
+<body class="" data-theme-color="color-red">
 <div class="page-wraper">
 
     <!-- Preloader -->

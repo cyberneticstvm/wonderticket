@@ -57,7 +57,8 @@ $(function(){
     });
 
     $(document).on("keyup", ".counts", function(){
-        getTotal($(".sel").val());          
+        getTotal($(".sel").val());
+        getRawTotal($(this), $(".sel").val());         
     });
     
     $(document).on("click", ".btnPlay, .menu-toggler", function(){
@@ -72,7 +73,7 @@ $(function(){
 });
 
 function addNumPanel(){
-    $(".numPanel").last().after("<div class='row numPanel'><div class='col-4 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-4 mb-2'><input type='number' name='counts[]' min='1' max='999' step='1' class='counts' placeholder='Count' maxlength='3' required /></div><div class='col-2'><input type='number' class='' placeholder='0.00' readonly></div><div class='col-2'><a href='javascript:void(0)' class='dlt'><i class='fa fa-trash'></i></a></div></div>");
+    $(".numPanel").last().after("<div class='row numPanel'><div class='col-4 mb-2'><input type='number' name='numbers[]' id='numbers[]' class='nums' placeholder='Number' maxlength="+maxval+" required /></div><div class='col-4 mb-2'><input type='number' name='counts[]' min='1' max='999' step='1' class='counts' placeholder='Count' maxlength='3' required /></div><div class='col-2'><input type='number' class='rowTot' placeholder='0.00' readonly></div><div class='col-2'><a href='javascript:void(0)' class='dlt'><i class='fa fa-trash'></i></a></div></div>");
     $(".nums").last().focus();
 }
 
@@ -89,7 +90,7 @@ function counter(seconds){
         if (timeLeft == -1) {
             clearTimeout(timerId);
         } else {
-            elem.innerHTML = "Time left for next play <span class='text-success fw-bold'>"+timeLeft + '</span> seconds';
+            elem.innerHTML = "Time left for next play <span class='text-success fw-bold'>"+new Date(timeLeft*1000).toISOString().slice(11, 19); + '</span> seconds';
             timeLeft--;
         }
     }
@@ -112,4 +113,16 @@ function getTotal(type){
         }
     });
     $(".totCount").html(parseInt(count));
+}
+
+function getRawTotal(dis, type){
+    var count = dis.val();
+    $.ajax({
+        type: 'GET',
+        url: '/user/item/price/get/'+type+'/'+count,
+        dataType: 'json',
+        success: function(res){
+            dis.parent().parent().find('.rowTot').val(parseFloat(res.amount).toFixed(2));
+        }
+    });
 }
